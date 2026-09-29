@@ -185,40 +185,66 @@
     .nav-dropdown { left: 0; right: auto; min-width: 0; width: min(86vw, 250px); }
   }
 </style>
+<style id="site-nav">
+  header.nav { position: sticky; top: 0; z-index: 50; background: rgba(252,250,247,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid #E5DFD6; }
+  header.nav .nav-inner { max-width: 1180px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  header.nav .brand-group { display: flex; align-items: baseline; gap: 12px; }
+  header.nav .brand { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 1.15rem; display: flex; align-items: center; gap: 9px; color: #34404A; }
+  header.nav .brand-mark { width: 9px; height: 9px; border-radius: 50%; background: #4E7692; box-shadow: 0 0 0 3px #E8F1F7; }
+  header.nav .brand-crumb { font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500; color: #667079; letter-spacing: 0; }
+  header.nav .brand-crumb:hover, header.nav .brand-crumb.on { color: #34404A; }
+  header.nav nav.links { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; font-family: 'Inter', sans-serif; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: #667079; }
+  header.nav nav.links .nav-top, header.nav nav.links .nav-trigger { padding: 8px 13px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; color: #667079; background: none; font-size: 0.76rem; font-weight: 600; transition: background .15s ease, color .15s ease; }
+  header.nav nav.links a.nav-top:hover, header.nav nav.links .nav-trigger:hover { color: #34404A; background: #f1efe9; }
+  header.nav nav.links .active.nav-top, header.nav nav.links .nav-trigger.active { color: #4E7692; background: #E8F1F7; font-weight: 700; }
+  header.nav .nav-off { opacity: 0.45; cursor: default; }
+  header.nav .caret { font-size: 0.55rem; opacity: 0.55; }
+  header.nav .nav-item { position: relative; }
+  header.nav .nav-dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: auto; min-width: 230px; background: #fff; border: 1px solid #E5DFD6; border-radius: 12px; box-shadow: 0 14px 32px -16px rgba(52,64,74,0.28); padding: 6px; z-index: 60; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s ease, transform .15s ease, visibility .15s ease; }
+  header.nav .nav-item:hover .nav-dropdown, header.nav .nav-item.open .nav-dropdown, header.nav .nav-item:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  header.nav .nav-dropdown a, header.nav .nav-soon { display: block; padding: 8px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; letter-spacing: 0; text-transform: none; color: #667079; }
+  header.nav .nav-dropdown a:hover, header.nav .nav-dropdown a.active { background: #E8F1F7; color: #34404A; }
+  header.nav .nav-soon { opacity: 0.55; }
+  .subnav .sub-off { padding: 3px 6px; opacity: 0.45; }
+  @media (max-width: 880px) {
+    header.nav .nav-inner { flex-direction: column; align-items: flex-start; gap: 10px; padding: 12px 16px; }
+    header.nav .nav-dropdown { display: none; position: fixed; top: auto; left: 16px; right: 16px; width: auto; min-width: 0; transform: none !important; margin-top: 6px; }
+    header.nav .nav-item:hover .nav-dropdown, header.nav .nav-item.open .nav-dropdown, header.nav .nav-item:focus-within .nav-dropdown { display: block; }
+  }
+</style>
 </head>
 <body style="--mz:1">
 
 <header class="nav">
   <div class="nav-inner">
     <div class="brand-group">
-      <div class="brand"><span class="brand-mark"></span>C1 Advanced Prep</div>
+      <a class="brand" href="index.html"><span class="brand-mark"></span>C1 Advanced Prep</a>
       <a class="brand-crumb" href="CAE_Exam_Essentials.html">Exam Essentials</a>
     </div>
     <nav class="links">
+      <a href="index.html" class="nav-top">Home</a>
       <div class="nav-item">
-        <a href="#" class="nav-trigger">Use of English <span class="caret">▾</span></a>
+        <a href="CAE_Use_of_English_test1.html" class="nav-trigger">Use of English <span class="caret">▾</span></a>
         <div class="nav-dropdown">
-          <span class="soon">Overview — coming soon</span>
-          <a href="CAE Use of English_test1.html">Practice Test 1 (Parts 1–4)</a>
+          <a href="CAE_Use_of_English_test1.html">Practice Test 1 (Parts 1–4)</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="#" class="nav-trigger active">Reading <span class="caret">▾</span></a>
+        <a href="CAE_Reading_part5_unit1.html" class="nav-trigger active">Reading <span class="caret">▾</span></a>
         <div class="nav-dropdown">
-          <span class="soon">Overview — coming soon</span>
-          <a href="CAE Reading_part5_unit1.html" class="active">Part 5 — Unit 1: Mind &amp; technology</a>
+          <a href="CAE_Reading_part5_unit1.html" class="active">Part 5 — Unit 1: Mind &amp; technology</a>
         </div>
       </div>
-      <a href="#">Writing</a>
-      <a href="#">Listening</a>
+      <span class="nav-top nav-off" title="Coming soon">Writing</span>
+      <span class="nav-top nav-off" title="Coming soon">Listening</span>
       <div class="nav-item">
-        <a href="CAE Speaking_general.html" class="nav-trigger">Speaking <span class="caret">▾</span></a>
+        <a href="CAE_Speaking_general.html" class="nav-trigger">Speaking <span class="caret">▾</span></a>
         <div class="nav-dropdown">
-          <a href="CAE Speaking_general.html">Overview</a>
-          <a href="CAE Speaking_part1.html">Part 1 — Interview</a>
-          <a href="CAE Speaking_part2.html">Part 2 — Long Turn</a>
-          <a href="CAE Speaking_part3.html">Part 3 — Collaborative Task</a>
-          <a href="CAE Speaking_part4.html">Part 4 — Discussion</a>
+          <a href="CAE_Speaking_general.html">Overview</a>
+          <a href="CAE_Speaking_part1.html">Part 1 — Interview</a>
+          <a href="CAE_Speaking_part2.html">Part 2 — Long Turn</a>
+          <a href="CAE_Speaking_part3.html">Part 3 — Collaborative Task</a>
+          <span class="nav-soon">Part 4 — Discussion · coming soon</span>
         </div>
       </div>
     </nav>
@@ -545,6 +571,17 @@
   }
   function closeZoom() { document.getElementById('modal').classList.remove('show'); }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeZoom(); });
+</script>
+<script id="site-nav-js">
+  document.querySelectorAll('header.nav .nav-item').forEach(function (item) {
+    var t = item.querySelector('.nav-trigger');
+    t.addEventListener('click', function (e) {
+      if (window.matchMedia('(hover: none)').matches && !item.classList.contains('open')) { e.preventDefault(); item.classList.add('open'); }
+    });
+  });
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('header.nav .nav-item.open').forEach(function (i) { if (!i.contains(e.target)) i.classList.remove('open'); });
+  });
 </script>
 </body>
 </html>

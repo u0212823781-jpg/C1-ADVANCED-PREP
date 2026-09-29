@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C1 Advanced Prep — Speaking · Part 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #34404A;
+    --ink-soft: #667079;
+    --blue: #AFCBE0;
+    --blue-dark: #4E7692;
+    --blue-bg: #E8F1F7;
+    --blue-bg-strong: #B9CEE0;
+    --peach: #EAB9A8;
+    --peach-dark: #B97B62;
+    --peach-bg: #F8E8E1;
+    --peach-bg-strong: #F2DED4;
+    --paper: #FCFAF7;
+    --card: #ffffff;
+    --line: #E5DFD6;
+    --maxw: 1180px;
+    --display: 'Fraunces', Georgia, serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: var(--body); color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  ul, ol { margin: 0; padding: 0; list-style: none; }
+  :focus-visible { outline: 2.5px solid var(--blue-dark); outline-offset: 3px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+  /* ===== Nav ===== */
+  header.nav { border-bottom: 1px solid var(--line); position: sticky; top: 0; background: rgba(252,250,247,0.92); backdrop-filter: blur(8px); z-index: 50; }
+  .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .brand-group { display: flex; align-items: baseline; gap: 12px; }
+  .brand { font-family: var(--display); font-weight: 600; font-size: 1.15rem; letter-spacing: 0.2px; display: flex; align-items: center; gap: 9px; }
+  .brand-mark { width: 9px; height: 9px; border-radius: 50%; background: var(--blue-dark); box-shadow: 0 0 0 3px var(--blue-bg); }
+  .brand-crumb { font-size: 0.82rem; color: var(--ink-soft); font-weight: 500; transition: color .15s ease; }
+  .brand-crumb:hover { color: var(--ink); }
+  nav.links { display: flex; gap: 4px; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--ink-soft); flex-wrap: wrap; }
+  nav.links a { padding: 8px 13px; border-radius: 20px; display: inline-flex; align-items: center; transition: background .15s ease, color .15s ease; }
+  nav.links a.active { color: var(--blue-dark); background: var(--blue-bg); font-weight: 700; }
+  nav.links a:not(.active):hover { color: var(--ink); background: #f1efe9; }
+  nav.links .caret { font-size: 0.55rem; margin-left: 4px; opacity: 0.55; }
+  .nav-item { position: relative; }
+  .nav-dropdown {
+    position: absolute; top: calc(100% + 6px); left: 0;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: 0 14px 32px -16px rgba(52,64,74,0.28);
+    padding: 6px; min-width: 210px; z-index: 60;
+    opacity: 0; visibility: hidden; transform: translateY(-4px);
+    transition: opacity .15s ease, transform .15s ease, visibility .15s ease;
+  }
+  .nav-item:hover .nav-dropdown, .nav-item.open .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 8px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--ink-soft); }
+  .nav-dropdown a.active, .nav-dropdown a:hover { background: var(--blue-bg); color: var(--ink); }
+
+  /* ===== Hero ===== */
+  .hero { position: relative; overflow: hidden; padding: 24px 32px 20px; background: var(--blue-bg); }
+  .hero-inner { max-width: var(--maxw); margin: 0 auto; }
+  .subnav { display: flex; justify-content: flex-end; gap: 4px; font-size: 0.76rem; font-weight: 600; color: var(--blue-dark); margin-bottom: 10px; flex-wrap: wrap; }
+  .subnav a { padding: 3px 6px; border-radius: 6px; transition: background .15s ease; }
+  .subnav a.active, .subnav a:hover { background: rgba(255,255,255,0.6); }
+  .subnav .sep { color: var(--ink-soft); opacity: 0.5; }
+  .hero-text { text-align: center; position: relative; z-index: 1; padding: 4px 0 2px; }
+  .kicker { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--peach-dark); display: block; margin-bottom: 6px; }
+  .hero-text h1 { font-family: var(--display); font-size: clamp(2rem, 3.8vw, 2.6rem); margin: 0 0 8px; font-weight: 600; letter-spacing: -0.5px; color: var(--ink); line-height: 1.05; }
+  .hero-text p { margin: 0 auto; font-size: 0.92rem; color: var(--ink-soft); max-width: 560px; line-height: 1.55; }
+  .hero-illus { position: absolute; top: 50%; right: 18px; transform: translateY(-50%); width: 210px; height: auto; opacity: 0.95; pointer-events: none; }
+
+  /* ===== Grid of panels ===== */
+  .content-grid { max-width: var(--maxw); margin: 0 auto; padding: 20px 32px 0; display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; align-items: start; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; }
+  .span-5 { grid-column: span 5; }
+  .span-7 { grid-column: span 7; }
+  .span-4 { grid-column: span 4; }
+  .span-6 { grid-column: span 6; }
+  .span-8 { grid-column: span 8; }
+  .span-12 { grid-column: span 12; }
+
+  .p-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+  .p-num { font-family: var(--mono); font-weight: 700; color: var(--blue-dark); font-size: 0.92rem; flex: none; }
+  .p-head h3 { margin: 0; font-size: 1rem; font-weight: 700; color: var(--ink); font-family: var(--body); }
+  .p-sub { font-size: 0.78rem; color: var(--ink-soft); margin: 0 0 12px 24px; }
+
+  /* --- 01 Useful Language --- */
+  .phrase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .phrase-chip { background: var(--blue-bg); border: 1px solid #DCE9F1; border-radius: 8px; padding: 8px 10px; font-size: 0.78rem; color: var(--ink); line-height: 1.3; }
+  .phrase-btn { margin-top: auto; text-align: center; background: var(--card); border: 1px solid var(--blue); color: var(--blue-dark); font-weight: 700; font-size: 0.8rem; padding: 9px; border-radius: 9px; transition: background .15s ease; }
+  .phrase-btn:hover { background: var(--blue-bg); }
+
+  /* --- 02 Go Beyond a Short Answer --- */
+  .beyond-row { display: flex; align-items: stretch; gap: 8px; margin-top: 4px; }
+  .step-box { flex: 1; background: var(--blue-bg); border-radius: 10px; padding: 12px 14px; position: relative; min-width: 0; }
+  .step-box.developed { background: var(--peach-bg); }
+  .step-box .sb-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .step-box .sb-label { font-family: var(--mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; color: var(--blue-dark); }
+  .step-box.developed .sb-label { color: var(--peach-dark); }
+  .step-box .sb-ico { color: var(--blue-dark); flex: none; }
+  .step-box.developed .sb-ico { color: var(--peach-dark); }
+  .step-box p { margin: 0; font-size: 0.8rem; color: var(--ink); line-height: 1.45; }
+  .beyond-arrow { flex: none; display: flex; align-items: center; color: var(--ink-soft); opacity: 0.55; align-self: center; }
+  .process-strip { margin-top: 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--line); border-radius: 10px; padding: 9px 16px; flex-wrap: wrap; gap: 6px; }
+  .process-strip .p-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600; color: var(--ink); }
+  .process-strip svg { color: var(--blue-dark); flex: none; }
+  .process-strip .p-arrow { color: var(--ink-soft); opacity: 0.5; flex: none; }
+
+  /* --- 03 / 04 two-column checklists --- */
+  .cols-2 { display: flex; gap: 16px; margin-bottom: 12px; flex: 1; }
+  .cols-2 .col { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .check-li { display: flex; align-items: flex-start; gap: 7px; font-size: 0.79rem; color: var(--ink-soft); line-height: 1.4; }
+  .check-li svg { flex: none; margin-top: 2px; color: var(--blue-dark); }
+  .tip-strip { margin-top: 14px; display: flex; gap: 9px; align-items: center; background: var(--blue-bg); border-radius: 9px; padding: 10px 12px; font-size: 0.78rem; color: var(--ink); line-height: 1.4; }
+  .tip-strip svg { flex: none; color: var(--blue-dark); }
+
+  /* --- 05 Guided Practice --- */
+  .steps-row { display: flex; align-items: flex-start; gap: 4px; margin: 6px 0 12px; }
+  .step-item { flex: 1; text-align: center; min-width: 0; }
+  .step-circle { width: 28px; height: 28px; border-radius: 50%; background: var(--blue-bg-strong); color: var(--blue-dark); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--mono); font-size: 0.78rem; margin: 0 auto 6px; flex: none; }
+  .step-item h5 { margin: 0 0 2px; font-size: 0.76rem; font-weight: 700; color: var(--ink); }
+  .step-item p { margin: 0; font-size: 0.68rem; color: var(--ink-soft); line-height: 1.3; }
+  .step-arrow { flex: none; color: var(--ink-soft); opacity: 0.45; align-self: center; margin-top: 12px; }
+  .gp-layout { display: flex; gap: 24px; align-items: stretch; margin-top: 8px; }
+  .gp-steps { flex: 0 0 240px; display: flex; flex-direction: column; gap: 14px; }
+  .gp-step { display: flex; gap: 10px; align-items: flex-start; }
+  .gp-step h5 { margin: 0 0 2px; font-size: 0.82rem; font-weight: 700; color: var(--ink); }
+  .gp-step p { margin: 0; font-size: 0.74rem; color: var(--ink-soft); line-height: 1.35; }
+  .gp-layout .model-card { flex: 1; margin-top: 0; }
+  .gp-step .step-circle { margin: 0; }
+  .model-card { background: var(--peach-bg); border-radius: 10px; padding: 12px 14px; margin-top: auto; }
+  .model-tag { font-family: var(--mono); font-size: 0.66rem; font-weight: 700; color: var(--peach-dark); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px; }
+  .model-q { font-weight: 700; font-size: 0.83rem; color: var(--ink); margin-bottom: 6px; }
+  .model-text { font-size: 0.79rem; color: var(--ink); line-height: 1.5; margin-bottom: 10px; }
+  .model-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.68rem; font-weight: 600; color: var(--ink-soft); }
+  .model-tags .mt-item { display: flex; align-items: center; gap: 4px; }
+  .model-tags svg { color: var(--peach-dark); }
+  .model-tags .mt-dot { opacity: 0.5; }
+
+  /* --- 06 Watch in action --- */
+  .watch-grid { display: flex; gap: 16px; margin-top: 4px; }
+  .watch-item { flex: 1; text-align: center; }
+  .vid-ph { position: relative; width: 100%; aspect-ratio: 28/9; border-radius: 10px; overflow: hidden; background: var(--blue-bg-strong); display: flex; align-items: center; justify-content: center; }
+  .vid-ph svg.decor { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .vid-play { position: relative; z-index: 2; width: 34px; height: 34px; border-radius: 50%; border: none; padding: 0; cursor: pointer; background: rgba(255,255,255,0.95); display: flex; align-items: center; justify-content: center; color: var(--blue-dark); box-shadow: 0 4px 12px rgba(52,64,74,0.18); transition: transform .15s ease; }
+  .vid-ph:hover .vid-play { transform: scale(1.06); }
+  .watch-item .w-label { display: block; margin-top: 8px; font-size: 0.78rem; font-weight: 700; color: var(--ink); }
+
+  /* --- 07 Now it's your turn --- */
+  .topic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 4px; }
+  .topic-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 13px 14px; display: flex; flex-direction: column; gap: 9px; }
+  .topic-head { display: flex; align-items: center; gap: 9px; }
+  .topic-ico { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--blue-bg-strong); color: var(--blue-dark); display: flex; align-items: center; justify-content: center; }
+  .topic-head h4 { margin: 0; font-size: 0.84rem; font-weight: 700; color: var(--ink); }
+  .topic-card ul { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .topic-card li { font-size: 0.74rem; color: var(--ink-soft); line-height: 1.4; }
+  .topic-btn { margin-top: 4px; text-align: center; border: 1px solid var(--blue); color: var(--blue-dark); font-weight: 700; font-size: 0.74rem; padding: 8px; border-radius: 8px; transition: background .15s ease; }
+  .topic-btn:hover { background: var(--blue-bg); }
+
+  /* --- 08 Answer check --- */
+  .ac-cols { display: flex; gap: 20px; }
+  .ac-cols .col { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .ac-item { display: flex; align-items: flex-start; gap: 10px; }
+  .ac-ico { flex: none; width: 30px; height: 30px; border-radius: 8px; background: var(--blue-bg); color: var(--blue-dark); display: flex; align-items: center; justify-content: center; }
+  .ac-item h5 { margin: 0 0 2px; font-size: 0.82rem; font-weight: 700; color: var(--ink); }
+  .ac-item p { margin: 0; font-size: 0.76rem; color: var(--ink-soft); line-height: 1.35; }
+
+  /* --- Final band --- */
+  .final-band { max-width: var(--maxw); margin: 14px auto 30px; padding: 0 32px; }
+  .final-band .fb-inner { background: var(--peach-bg); border-radius: 14px; padding: 16px 24px; display: flex; align-items: center; justify-content: center; gap: 14px; text-align: center; }
+  .final-band svg { flex: none; color: var(--peach-dark); }
+  .final-band p { margin: 0; font-size: 0.92rem; font-weight: 600; color: var(--ink); }
+
+  footer { padding: 22px 32px 34px; text-align: center; color: var(--ink-soft); font-size: 0.78rem; font-family: var(--mono); }
+  footer .credit { display: block; margin-top: 8px; opacity: 0.6; font-size: 0.72rem; letter-spacing: 0.3px; }
+
+  @media (max-width: 980px) {
+    .span-5, .span-7, .span-4, .span-6, .span-8 { grid-column: span 12; }
+    .topic-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-illus { display: none; }
+    .steps-row { flex-wrap: wrap; }
+    .lang-grid { grid-template-columns: repeat(2, 1fr); row-gap: 16px; }
+    .practice-track { grid-template-columns: repeat(3, 1fr); }
+    .ac-grid-6 { grid-template-columns: repeat(3, 1fr); }
+    .photo-select-row { flex-wrap: wrap; }
+    .photo-slot { flex: 1 1 45%; }
+    .move-grid { grid-template-columns: repeat(2, 1fr); row-gap: 16px; }
+    .gp-mindmap-col { flex: 1 1 auto; }
+    .disc-track { grid-template-columns: repeat(2, 1fr); }
+    .ic-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 880px) {
+    .nav-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+    nav.links { gap: 6px; }
+    .nav-dropdown { left: 50%; right: auto; transform: translateX(-50%) translateY(-4px); width: min(86vw, 240px); }
+    .nav-item:hover .nav-dropdown, .nav-item.open .nav-dropdown { transform: translateX(-50%) translateY(0); }
+    .subnav { justify-content: flex-start; }
+    .beyond-row { flex-direction: column; }
+    .beyond-arrow { transform: rotate(90deg); align-self: center; }
+    .cols-2 { flex-direction: column; gap: 10px; }
+    .cc-row { flex-direction: column; }
+    .ac-cols { flex-direction: column; gap: 12px; }
+    .watch-grid { flex-direction: column; }
+    .level-row { flex-direction: column; }
+    .interaction-row { flex-direction: column; }
+  }
+  @media (max-width: 620px) {
+    .phrase-grid { grid-template-columns: 1fr; }
+    .topic-grid { grid-template-columns: 1fr; }
+    .steps-row { flex-direction: column; align-items: stretch; }
+    .step-arrow { display: none; }
+    .process-strip { flex-direction: column; align-items: flex-start; }
+    .lang-grid { grid-template-columns: 1fr; }
+    .practice-track { grid-template-columns: 1fr 1fr; }
+    .ac-grid-6 { grid-template-columns: 1fr 1fr; }
+    .pset-imgs { grid-template-columns: 1fr; }
+    .photo-select-row { flex-direction: column; }
+    .photo-slot { flex: 1 1 auto; }
+    .timeline { flex-direction: column; gap: 14px; align-items: flex-start; }
+    .timeline::before { display: none; }
+    .tl-item { text-align: left; display: flex; align-items: center; gap: 10px; }
+    .tl-dot { margin: 0; }
+    .move-grid { grid-template-columns: 1fr; }
+    .disc-track { grid-template-columns: 1fr; }
+    .ic-grid { grid-template-columns: 1fr 1fr; }
+    .mindmap, .disc-modal .mindmap { aspect-ratio: auto; min-height: 0; }
+    .mindmap svg.mm-lines { display: none; }
+    .mm-center, .mm-prompt { position: static; width: 100%; margin-bottom: 8px; }
+  }
+  /* --- 01 Useful Language (4 columns) --- */
+  .lang-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 4px; }
+  .lang-col h4 { margin: 0 0 8px; font-size: 0.8rem; font-weight: 700; color: var(--ink); }
+  .lang-col { display: flex; flex-direction: column; gap: 7px; }
+  .lang-chip { background: var(--blue-bg); border: 1px solid #DCE9F1; border-radius: 8px; padding: 7px 10px; font-size: 0.75rem; color: var(--ink); line-height: 1.35; }
+
+  /* --- 02 Choose Two --- */
+  .task-lead { font-size: 0.82rem; color: var(--ink-soft); margin: 0 0 12px; line-height: 1.5; max-width: 780px; }
+  .photo-select-row { display: flex; gap: 14px; margin-bottom: 14px; }
+  .photo-slot { flex: 1; position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; background: var(--blue-bg); border: 2px solid transparent; display: flex; flex-direction: column; }
+  .photo-slot.selected { border-color: var(--blue-dark); }
+  .ps-visual { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; }
+  .ps-visual svg.decor { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .ps-icon { position: relative; z-index: 1; color: var(--blue-dark); opacity: 0.7; }
+  .photo-slot .ps-letter { position: absolute; top: 8px; left: 8px; z-index: 2; width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.92); color: var(--ink); font-weight: 700; font-family: var(--mono); display: flex; align-items: center; justify-content: center; font-size: 0.74rem; }
+  .photo-slot .ps-check { position: absolute; bottom: 8px; right: 8px; z-index: 2; width: 22px; height: 22px; border-radius: 50%; background: var(--blue-dark); color: #fff; display: flex; align-items: center; justify-content: center; }
+  .photo-slot .ps-caption { background: var(--card); font-size: 0.68rem; color: var(--ink-soft); text-align: center; padding: 6px 8px; line-height: 1.3; }
+  .task-box { background: var(--blue-bg); border-radius: 10px; padding: 14px 16px; }
+  .task-box ol { display: flex; flex-direction: column; gap: 7px; }
+  .task-box li { display: flex; gap: 9px; align-items: baseline; font-size: 0.82rem; color: var(--ink); font-weight: 600; }
+  .task-box .tq-num { flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--blue-dark); color: #fff; font-family: var(--mono); font-size: 0.68rem; display: flex; align-items: center; justify-content: center; }
+
+  /* --- 03 Describe or Compare --- */
+  .cc-row { display: flex; gap: 14px; margin-top: 4px; align-items: stretch; }
+  .cc-box { flex: 1; min-width: 0; border-radius: 10px; padding: 14px 16px; }
+  .cc-box.avoid { background: var(--peach-bg); }
+  .cc-box.good { background: var(--blue-bg); }
+  .cc-tag { display: flex; align-items: center; gap: 7px; font-size: 0.76rem; font-weight: 700; margin-bottom: 8px; }
+  .cc-box.avoid .cc-tag { color: var(--peach-dark); }
+  .cc-box.good .cc-tag { color: var(--blue-dark); }
+  .cc-tag .dot { width: 17px; height: 17px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; flex: none; }
+  .cc-box.avoid .dot { background: var(--peach-dark); }
+  .cc-box.good .dot { background: var(--blue-dark); }
+  .cc-box ul { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+  .cc-box li { font-size: 0.76rem; color: var(--ink-soft); line-height: 1.35; padding-left: 11px; position: relative; }
+  .cc-box li::before { content: "•"; position: absolute; left: 0; opacity: 0.55; }
+  .cc-example { font-size: 0.73rem; color: var(--ink); line-height: 1.4; padding-top: 7px; border-top: 1px dashed rgba(52,64,74,0.15); }
+
+
+  /* --- 05 One-Minute Strategy --- */
+  .strategy-note { font-size: 0.72rem; color: var(--ink-soft); margin: 0 0 12px; opacity: 0.85; }
+  .timeline { position: relative; display: flex; justify-content: space-between; margin-top: 4px; }
+  .timeline::before { content: ""; position: absolute; top: 15px; left: 15px; right: 15px; height: 1px; background: var(--line); border-top: 1px dashed var(--blue); }
+  .tl-item { position: relative; flex: 1; text-align: center; padding: 0 4px; }
+  .tl-dot { position: relative; z-index: 1; width: 30px; height: 30px; border-radius: 50%; background: var(--card); border: 1.5px solid var(--blue-dark); color: var(--blue-dark); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+  .tl-time { font-family: var(--mono); font-size: 0.66rem; font-weight: 700; color: var(--blue-dark); display: block; margin-bottom: 2px; }
+  .tl-item h5 { margin: 0 0 2px; font-size: 0.78rem; font-weight: 700; color: var(--ink); }
+  .tl-item p { margin: 0; font-size: 0.68rem; color: var(--ink-soft); line-height: 1.3; }
+
+  /* --- Key takeaways --- */
+  .takeaways { margin-top: 12px; background: var(--blue-bg); border-radius: 9px; padding: 10px 12px; }
+  .takeaways .tk-title { display: flex; align-items: center; gap: 7px; font-size: 0.74rem; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .takeaways .tk-title svg { color: var(--blue-dark); }
+  .takeaways ul { display: flex; flex-direction: column; gap: 4px; }
+  .takeaways li { font-size: 0.74rem; color: var(--ink-soft); line-height: 1.35; padding-left: 11px; position: relative; }
+  .takeaways li::before { content: "•"; position: absolute; left: 0; opacity: 0.55; }
+
+  /* --- 07 Partner's 30 seconds --- */
+  .partner-block { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .pq-box { border-radius: 10px; padding: 11px 14px; }
+  .pq-box.q { background: var(--peach-bg); }
+  .pq-box.a { background: var(--blue-bg); }
+  .pq-label { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 5px; }
+  .pq-box.q .pq-label { color: var(--peach-dark); }
+  .pq-box.a .pq-label { color: var(--blue-dark); }
+  .pq-box p { margin: 0; font-size: 0.8rem; color: var(--ink); line-height: 1.45; }
+  .partner-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .badge-30 { font-family: var(--mono); font-size: 0.68rem; font-weight: 700; color: var(--blue-dark); background: var(--blue-bg); padding: 5px 12px; border-radius: 20px; }
+  .partner-footer .reminder { font-size: 0.74rem; color: var(--ink-soft); }
+
+  /* --- 08 Photo Practice --- */
+  .practice-track { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 4px; }
+  .practice-card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 7px; }
+  .practice-head { display: flex; align-items: center; gap: 6px; }
+  .practice-num { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; color: #fff; background: var(--blue-dark); width: 17px; height: 17px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex: none; }
+  .practice-head span:last-child { font-size: 0.72rem; font-weight: 700; color: var(--ink); }
+  .practice-imgs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; position: relative; }
+  .practice-img { aspect-ratio: 1/1; border-radius: 6px; overflow: hidden; background: var(--blue-bg-strong); display: flex; align-items: center; justify-content: center; position: relative; }
+  .practice-img:nth-child(2) { background: var(--peach-bg-strong); }
+  .practice-img .pi-letter { position: absolute; top: 2px; left: 3px; font-family: var(--mono); font-size: 0.52rem; font-weight: 700; color: var(--ink-soft); opacity: 0.8; }
+  .practice-expand { position: absolute; top: -3px; right: -3px; z-index: 3; width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,0.94); border: none; display: flex; align-items: center; justify-content: center; color: var(--ink-soft); cursor: pointer; box-shadow: 0 2px 5px rgba(52,64,74,0.18); }
+  .practice-card .pc-task { margin: 0; font-size: 0.66rem; color: var(--ink-soft); line-height: 1.3; }
+  .practice-partner { border-top: 1px dashed var(--line); padding-top: 6px; }
+  .practice-partner .pp-label { display: block; font-family: var(--mono); font-size: 0.54rem; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; color: var(--peach-dark); margin-bottom: 2px; }
+  .practice-partner .pp-q { font-size: 0.64rem; color: var(--ink-soft); line-height: 1.25; }
+  .practice-link { margin-top: auto; text-align: center; font-size: 0.66rem; font-weight: 700; color: var(--blue-dark); border: 1px solid var(--blue); border-radius: 7px; padding: 6px; }
+  .practice-link:hover { background: var(--blue-bg); }
+
+  /* --- Photo set modal --- */
+  .pset-overlay { position: fixed; inset: 0; background: rgba(52,64,74,0.55); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .pset-overlay.open { display: flex; }
+  .pset-modal { background: var(--card); border-radius: 16px; padding: 26px; max-width: 640px; width: 100%; max-height: 88vh; overflow-y: auto; position: relative; }
+  .pset-close { position: absolute; top: 14px; right: 14px; width: 30px; height: 30px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line); color: var(--ink-soft); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; }
+  .pset-close:hover { color: var(--ink); }
+  .pset-title { font-family: var(--display); font-weight: 700; font-size: 1.1rem; margin: 0 0 14px; padding-right: 30px; color: var(--ink); }
+  .pset-imgs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .pset-img { width: 100%; aspect-ratio: 4/3; border-radius: 10px; background: var(--blue-bg-strong); display: flex; align-items: center; justify-content: center; object-fit: cover; position: relative; }
+  .pset-q { font-size: 0.85rem; color: var(--ink); margin: 0 0 14px; line-height: 1.55; }
+  .pset-partner { border-top: 1px dashed var(--line); padding-top: 12px; }
+  .pset-partner .pp-label { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; color: var(--peach-dark); margin-bottom: 4px; }
+  .pset-partner p { margin: 0; font-size: 0.86rem; color: var(--ink-soft); line-height: 1.4; }
+
+  /* --- 09 Answer Check (6 cols) --- */
+  .ac-grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 4px; }
+  .ac6-card { background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 12px 10px; text-align: center; }
+  .ac6-ico { width: 30px; height: 30px; border-radius: 50%; margin: 0 auto 7px; display: flex; align-items: center; justify-content: center; background: var(--blue-bg); color: var(--blue-dark); }
+  .ac6-card h5 { margin: 0 0 3px; font-size: 0.75rem; font-weight: 700; color: var(--ink); }
+  .ac6-card p { margin: 0; font-size: 0.68rem; color: var(--ink-soft); line-height: 1.3; }
+  /* --- Build a Stronger Contribution (3-level) --- */
+  .level-row { display: flex; align-items: stretch; gap: 8px; margin-top: 4px; }
+
+  /* --- Move the Discussion Forward (3 columns) --- */
+  .move-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+  .move-col h4 { margin: 0 0 8px; font-size: 0.8rem; font-weight: 700; color: var(--ink); }
+  .move-col { display: flex; flex-direction: column; gap: 7px; }
+
+  /* --- Dialogue exchanges --- */
+  .dialogue { display: flex; flex-direction: column; gap: 8px; }
+  .dialogue-line { display: flex; gap: 9px; align-items: flex-start; }
+  .dialogue-line .who { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--blue-bg-strong); color: var(--blue-dark); font-family: var(--mono); font-weight: 700; font-size: 0.68rem; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+  .dialogue-line.b .who { background: var(--peach-bg-strong); color: var(--peach-dark); }
+  .dialogue-line p { margin: 0; font-size: 0.79rem; color: var(--ink); line-height: 1.45; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; flex: 1; }
+  .dialogue-line.b p { background: var(--paper); }
+
+  /* --- Process strip (reused pattern) --- */
+  .flow-strip { margin-top: 18px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--line); border-radius: 10px; padding: 9px 16px; flex-wrap: wrap; gap: 6px; }
+  .flow-strip .fs-item { font-size: 0.78rem; font-weight: 600; color: var(--ink); }
+  .flow-strip .fs-arrow { color: var(--ink-soft); opacity: 0.5; flex: none; }
+
+  /* --- 04 Two blocks (reuse cc-box classes) --- */
+  .interaction-row { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
+  .interaction-row .cc-box { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .interaction-row .cc-box .dialogue { margin-bottom: 8px; }
+  .interaction-row .cc-box ul { margin-top: 6px; }
+
+  /* --- 05 / 08 Mind map --- */
+  .gp-layout-2 { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; }
+  .gp-mindmap-col { border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .gp-mindmap-col .mindmap { max-width: 640px; margin: 6px auto 0; }
+  .gp-side-col { min-width: 0; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .phase-badge { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; color: var(--blue-dark); background: var(--blue-bg); padding: 5px 12px; border-radius: 20px; margin-bottom: 10px; }
+  .mindmap { position: relative; width: 100%; aspect-ratio: 560/300; margin: 6px 0; }
+  .mindmap svg.mm-lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+  .mm-center { position: absolute; left: 37.5%; top: 43.3%; width: 25%; background: var(--blue-bg-strong); border-radius: 14px; padding: 10px; text-align: center; font-weight: 700; font-size: 0.76rem; color: var(--ink); line-height: 1.3; display: flex; align-items: center; justify-content: center; z-index: 2; box-shadow: 0 4px 14px -8px rgba(52,64,74,0.25); }
+  .mm-prompt { position: absolute; width: 26.8%; background: var(--card); border: 1.5px solid var(--blue); border-radius: 11px; padding: 8px 9px; font-size: 0.68rem; font-weight: 600; color: var(--ink); text-align: center; line-height: 1.3; z-index: 1; }
+  .mm-p1 { left: 36.6%; top: 3.3%; }
+  .mm-p2 { left: 70.5%; top: 23.3%; }
+  .mm-p3 { left: 70.5%; top: 68%; }
+  .mm-p4 { left: 2.7%; top: 68%; }
+  .mm-p5 { left: 2.7%; top: 23.3%; }
+
+  .gp-steps-list { display: flex; flex-direction: column; gap: 9px; margin-bottom: 12px; }
+  .gp-step-row { display: flex; gap: 10px; align-items: flex-start; }
+  .gp-step-row .step-circle { margin: 0; }
+  .gp-step-row h5 { margin: 0 0 1px; font-size: 0.8rem; font-weight: 700; color: var(--ink); }
+  .gp-step-row p { margin: 0; font-size: 0.73rem; color: var(--ink-soft); line-height: 1.35; }
+
+  .sample-disc { background: var(--blue-bg); border-radius: 10px; padding: 12px 14px; margin-top: 14px; }
+  .sample-disc .sd-label { display: flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; color: var(--blue-dark); margin-bottom: 8px; }
+
+  /* --- 06 Reaching a Decision --- */
+  .decision-panel { background: var(--peach-bg); }
+  .decision-panel .phase-badge { color: var(--peach-dark); background: var(--card); }
+  .decision-panel .p-num { color: var(--peach-dark); }
+  .decision-q { font-size: 0.86rem; font-weight: 600; color: var(--ink); margin: 0 0 14px; line-height: 1.5; max-width: 780px; }
+  .decision-panel .dialogue-line p { border-color: #F0DCD3; }
+  .decision-panel .dialogue-line .who { background: var(--peach-bg-strong); color: var(--peach-dark); }
+  .decision-panel .dialogue-line.b .who { background: var(--blue-bg-strong); color: var(--blue-dark); }
+  .decision-panel .flow-strip { border-color: #F0DCD3; background: var(--card); }
+  .decision-reminder { margin-top: 10px; display: flex; gap: 9px; align-items: flex-start; background: var(--card); border-radius: 9px; padding: 10px 12px; font-size: 0.78rem; color: var(--ink); line-height: 1.4; }
+  .decision-reminder svg { flex: none; color: var(--peach-dark); margin-top: 2px; }
+
+  /* --- 08 Discussion Practice --- */
+  .disc-track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 4px; }
+  .disc-card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .disc-head { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+  .disc-head h4 { margin: 0; font-size: 0.82rem; font-weight: 700; color: var(--ink); }
+  .disc-expand { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--card); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; color: var(--ink-soft); cursor: pointer; }
+  .disc-expand:hover { color: var(--ink); border-color: var(--blue-dark); }
+  .disc-mini-mm { position: relative; width: 100%; aspect-ratio: 4/3; margin: 2px 0; }
+  .disc-mini-mm svg.mm-lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+  .disc-mini-mm .mm-center-dot { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 14px; height: 14px; border-radius: 50%; background: var(--blue-dark); z-index: 2; }
+  .disc-mini-mm .mm-dot { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--peach-dark); z-index: 1; }
+  .disc-card .dc-q { margin: 0; font-size: 0.72rem; color: var(--ink); font-weight: 600; line-height: 1.35; }
+  .disc-card .dc-decision { margin: 0; font-size: 0.68rem; color: var(--peach-dark); font-weight: 600; line-height: 1.35; padding-top: 6px; border-top: 1px dashed var(--line); }
+  .disc-link { margin-top: auto; text-align: center; font-size: 0.68rem; font-weight: 700; color: var(--blue-dark); border: 1px solid var(--blue); border-radius: 7px; padding: 7px; }
+  .disc-link:hover { background: var(--blue-bg); }
+  .disc-link.pending { color: var(--ink-soft); border-color: var(--line); cursor: default; }
+
+  /* --- Discussion modal (mind map detail) --- */
+  .disc-modal-overlay { position: fixed; inset: 0; background: rgba(52,64,74,0.55); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .disc-modal-overlay.open { display: flex; }
+  .disc-modal { background: var(--card); border-radius: 16px; padding: 26px; max-width: 640px; width: 100%; max-height: 88vh; overflow-y: auto; position: relative; }
+  .disc-modal-close { position: absolute; top: 14px; right: 14px; width: 30px; height: 30px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line); color: var(--ink-soft); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; }
+  .disc-modal-close:hover { color: var(--ink); }
+  .disc-modal-title { font-family: var(--display); font-weight: 700; font-size: 1.1rem; margin: 0 0 14px; padding-right: 30px; color: var(--ink); }
+  .disc-modal .mindmap { aspect-ratio: 560/280; }
+  .disc-modal-decision { margin-top: 14px; border-top: 1px dashed var(--line); padding-top: 12px; }
+  .disc-modal-decision .pp-label { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; color: var(--peach-dark); margin-bottom: 4px; }
+  .disc-modal-decision p { margin: 0; font-size: 0.86rem; color: var(--ink-soft); line-height: 1.4; }
+
+  /* --- 09 Interaction Check (6 cols) --- */
+  .ic-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 4px; }
+  .ic-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 13px 12px; }
+  .ic-ico { width: 32px; height: 32px; border-radius: 9px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; background: var(--blue-bg); color: var(--blue-dark); }
+  .ic-card h5 { margin: 0 0 4px; font-size: 0.8rem; font-weight: 700; color: var(--ink); }
+  .ic-card p { margin: 0; font-size: 0.72rem; color: var(--ink-soft); line-height: 1.35; }
+</style>
+<style id="site-nav">
+  header.nav { position: sticky; top: 0; z-index: 50; background: rgba(252,250,247,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid #E5DFD6; }
+  header.nav .nav-inner { max-width: 1180px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  header.nav .brand-group { display: flex; align-items: baseline; gap: 12px; }
+  header.nav .brand { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 1.15rem; display: flex; align-items: center; gap: 9px; color: #34404A; }
+  header.nav .brand-mark { width: 9px; height: 9px; border-radius: 50%; background: #4E7692; box-shadow: 0 0 0 3px #E8F1F7; }
+  header.nav .brand-crumb { font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500; color: #667079; letter-spacing: 0; }
+  header.nav .brand-crumb:hover, header.nav .brand-crumb.on { color: #34404A; }
+  header.nav nav.links { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; font-family: 'Inter', sans-serif; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: #667079; }
+  header.nav nav.links .nav-top, header.nav nav.links .nav-trigger { padding: 8px 13px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; color: #667079; background: none; font-size: 0.76rem; font-weight: 600; transition: background .15s ease, color .15s ease; }
+  header.nav nav.links a.nav-top:hover, header.nav nav.links .nav-trigger:hover { color: #34404A; background: #f1efe9; }
+  header.nav nav.links .active.nav-top, header.nav nav.links .nav-trigger.active { color: #4E7692; background: #E8F1F7; font-weight: 700; }
+  header.nav .nav-off { opacity: 0.45; cursor: default; }
+  header.nav .caret { font-size: 0.55rem; opacity: 0.55; }
+  header.nav .nav-item { position: relative; }
+  header.nav .nav-dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: auto; min-width: 230px; background: #fff; border: 1px solid #E5DFD6; border-radius: 12px; box-shadow: 0 14px 32px -16px rgba(52,64,74,0.28); padding: 6px; z-index: 60; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s ease, transform .15s ease, visibility .15s ease; }
+  header.nav .nav-item:hover .nav-dropdown, header.nav .nav-item.open .nav-dropdown, header.nav .nav-item:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  header.nav .nav-dropdown a, header.nav .nav-soon { display: block; padding: 8px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; letter-spacing: 0; text-transform: none; color: #667079; }
+  header.nav .nav-dropdown a:hover, header.nav .nav-dropdown a.active { background: #E8F1F7; color: #34404A; }
+  header.nav .nav-soon { opacity: 0.55; }
+  .subnav .sub-off { padding: 3px 6px; opacity: 0.45; }
+  @media (max-width: 880px) {
+    header.nav .nav-inner { flex-direction: column; align-items: flex-start; gap: 10px; padding: 12px 16px; }
+    header.nav .nav-dropdown { display: none; position: fixed; top: auto; left: 16px; right: 16px; width: auto; min-width: 0; transform: none !important; margin-top: 6px; }
+    header.nav .nav-item:hover .nav-dropdown, header.nav .nav-item.open .nav-dropdown, header.nav .nav-item:focus-within .nav-dropdown { display: block; }
+  }
+  @media (max-width: 980px) { .lang-grid, .practice-track, .disc-track { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) {
+    [class*="-grid"]:not(.content-grid), .practice-track, .disc-track { grid-template-columns: 1fr !important; }
+    .gp-layout { flex-direction: column; } .gp-steps { flex: none !important; }
+    .content-grid { padding-left: 16px; padding-right: 16px; } .content-grid > *, .panel > * { min-width: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand-group">
+      <a class="brand" href="index.html"><span class="brand-mark"></span>C1 Advanced Prep</a>
+      <a class="brand-crumb" href="CAE_Exam_Essentials.html">Exam Essentials</a>
+    </div>
+    <nav class="links">
+      <a href="index.html" class="nav-top">Home</a>
+      <div class="nav-item">
+        <a href="CAE_Use_of_English_test1.html" class="nav-trigger">Use of English <span class="caret">▾</span></a>
+        <div class="nav-dropdown">
+          <a href="CAE_Use_of_English_test1.html">Practice Test 1 (Parts 1–4)</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="CAE_Reading_part5_unit1.html" class="nav-trigger">Reading <span class="caret">▾</span></a>
+        <div class="nav-dropdown">
+          <a href="CAE_Reading_part5_unit1.html">Part 5 — Unit 1: Mind &amp; technology</a>
+        </div>
+      </div>
+      <span class="nav-top nav-off" title="Coming soon">Writing</span>
+      <span class="nav-top nav-off" title="Coming soon">Listening</span>
+      <div class="nav-item">
+        <a href="CAE_Speaking_general.html" class="nav-trigger active">Speaking <span class="caret">▾</span></a>
+        <div class="nav-dropdown">
+          <a href="CAE_Speaking_general.html">Overview</a>
+          <a href="CAE_Speaking_part1.html">Part 1 — Interview</a>
+          <a href="CAE_Speaking_part2.html">Part 2 — Long Turn</a>
+          <a href="CAE_Speaking_part3.html" class="active">Part 3 — Collaborative Task</a>
+          <span class="nav-soon">Part 4 — Discussion · coming soon</span>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="subnav">
+      <a href="CAE_Speaking_general.html">Overview</a><span class="sep">·</span>
+      <a href="CAE_Speaking_part1.html">Part 1</a><span class="sep">·</span>
+      <a href="CAE_Speaking_part2.html">Part 2</a><span class="sep">·</span>
+      <a href="CAE_Speaking_part3.html" class="active">Part 3</a><span class="sep">·</span>
+      <span class="sub-off" title="Coming soon">Part 4</span>
+    </div>
+    <div class="hero-text">
+      <span class="kicker">Speaking · Part 3</span>
+      <h1>Collaborative Task</h1>
+      <p>Discuss a question with your partner using the five written prompts. Exchange and evaluate ideas for about 2 minutes. Then negotiate a decision together for about 1 minute.</p>
+    </div>
+    <div style="position:relative;">
+      <svg class="hero-illus" viewBox="0 0 220 150" fill="none">
+        <g opacity="0.5" stroke="var(--blue-dark)" stroke-width="1">
+          <circle cx="10" cy="14" r="1.3" fill="var(--blue-dark)" stroke="none"></circle>
+          <circle cx="21" cy="14" r="1.3" fill="var(--blue-dark)" stroke="none"></circle>
+          <circle cx="32" cy="14" r="1.3" fill="var(--blue-dark)" stroke="none"></circle>
+          <circle cx="10" cy="25" r="1.3" fill="var(--blue-dark)" stroke="none"></circle>
+          <circle cx="21" cy="25" r="1.3" fill="var(--blue-dark)" stroke="none"></circle>
+          <circle cx="32" cy="25" r="1.3" fill="var(--blue-dark)" stroke="none"></circle>
+        </g>
+        <g opacity="0.5" stroke="var(--peach-dark)" stroke-width="1">
+          <circle cx="188" cy="120" r="1.3" fill="var(--peach-dark)" stroke="none"></circle>
+          <circle cx="199" cy="120" r="1.3" fill="var(--peach-dark)" stroke="none"></circle>
+          <circle cx="210" cy="120" r="1.3" fill="var(--peach-dark)" stroke="none"></circle>
+          <circle cx="188" cy="131" r="1.3" fill="var(--peach-dark)" stroke="none"></circle>
+          <circle cx="199" cy="131" r="1.3" fill="var(--peach-dark)" stroke="none"></circle>
+          <circle cx="210" cy="131" r="1.3" fill="var(--peach-dark)" stroke="none"></circle>
+        </g>
+        <rect x="58" y="16" width="90" height="52" rx="14" fill="var(--card)" stroke="var(--blue-dark)" stroke-width="1.4"></rect>
+        <path d="M82 68 L82 86 L102 68 Z" fill="var(--card)" stroke="var(--blue-dark)" stroke-width="1.4"></path>
+        <line x1="74" y1="34" x2="130" y2="34" stroke="var(--blue-dark)" stroke-width="1.3" opacity="0.6"></line>
+        <line x1="74" y1="45" x2="116" y2="45" stroke="var(--blue-dark)" stroke-width="1.3" opacity="0.6"></line>
+        <rect x="98" y="58" width="96" height="46" rx="14" fill="var(--card)" stroke="var(--peach-dark)" stroke-width="1.4"></rect>
+        <path d="M114 104 L114 120 L132 104 Z" fill="var(--card)" stroke="var(--peach-dark)" stroke-width="1.4"></path>
+        <line x1="114" y1="74" x2="170" y2="74" stroke="var(--peach-dark)" stroke-width="1.3" opacity="0.6"></line>
+        <circle cx="40" cy="112" r="11" fill="none" stroke="var(--blue-dark)" stroke-width="1.4"></circle>
+        <path d="M28 138c0-8 5.4-13 12-13s12 5 12 13" fill="none" stroke="var(--blue-dark)" stroke-width="1.4"></path>
+        <circle cx="188" cy="26" r="4" fill="var(--peach)" opacity="0.8"></circle>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="content-grid">
+
+  <!-- 01 Useful Language -->
+  <section class="panel span-12">
+    <div class="p-head"><span class="p-num">01</span><h3>Useful Language</h3></div>
+    <p class="p-sub">Interact, evaluate and negotiate</p>
+    <div class="lang-grid">
+      <div class="lang-col">
+        <h4>Exploring and Evaluating</h4>
+        <div class="lang-chip">One potential benefit would be…</div>
+        <div class="lang-chip">The extent to which this would help depends on…</div>
+        <div class="lang-chip">What makes this particularly relevant is…</div>
+        <div class="lang-chip">This could have a considerable impact on…</div>
+        <div class="lang-chip">The main drawback, however, would be…</div>
+        <div class="lang-chip">In the long term, this might prove more valuable.</div>
+        <div class="lang-chip">There is a strong case for…</div>
+        <div class="lang-chip">This may be less effective than it initially appears.</div>
+      </div>
+      <div class="lang-col">
+        <h4>Responding and Building</h4>
+        <div class="lang-chip">That's a valid point, particularly because…</div>
+        <div class="lang-chip">Building on what you've just said,…</div>
+        <div class="lang-chip">That ties in with your point about…</div>
+        <div class="lang-chip">I hadn't considered that aspect.</div>
+        <div class="lang-chip">I can see why you'd say that, although…</div>
+        <div class="lang-chip">Perhaps another way of looking at it is…</div>
+        <div class="lang-chip">That raises an interesting question about…</div>
+        <div class="lang-chip">Your point about… is particularly relevant here.</div>
+      </div>
+      <div class="lang-col">
+        <h4>Inviting and Managing</h4>
+        <div class="lang-chip">What's your take on this?</div>
+        <div class="lang-chip">Would you say this is equally important?</div>
+        <div class="lang-chip">We haven't considered… yet.</div>
+        <div class="lang-chip">Shall we move on to…?</div>
+        <div class="lang-chip">Which of these strikes you as more significant?</div>
+        <div class="lang-chip">Do you think the same would apply to…?</div>
+        <div class="lang-chip">How would you compare this with…?</div>
+        <div class="lang-chip">Is there another factor we should consider?</div>
+      </div>
+      <div class="lang-col">
+        <h4>Negotiating a Decision</h4>
+        <div class="lang-chip">On balance, I'd be inclined to choose…</div>
+        <div class="lang-chip">Taking everything into account,…</div>
+        <div class="lang-chip">Could we agree that…?</div>
+        <div class="lang-chip">I'd be happy to settle on…</div>
+        <div class="lang-chip">That seems the strongest option overall.</div>
+        <div class="lang-chip">We may not completely agree, but…</div>
+        <div class="lang-chip">Shall we go with…?</div>
+        <div class="lang-chip">It sounds as though we both favour…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 Build a Stronger Contribution -->
+  <section class="panel span-12">
+    <div class="p-head"><span class="p-num">02</span><h3>Build a Stronger Contribution</h3></div>
+    <div class="level-row">
+      <div class="step-box">
+        <span class="sb-label">Basic</span>
+        <p>"Voluntary work is useful."</p>
+      </div>
+      <div class="beyond-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+      <div class="step-box">
+        <span class="sb-label">Better</span>
+        <p>"Voluntary work is useful because young people can develop practical skills."</p>
+      </div>
+      <div class="beyond-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+      <div class="step-box developed">
+        <span class="sb-label">Developed C1 Contribution</span>
+        <p>"Voluntary work could be particularly valuable because it exposes young people to real responsibilities while allowing them to develop interpersonal skills. It may also make them more aware of the needs of others."</p>
+      </div>
+    </div>
+    <div class="flow-strip">
+      <span class="fs-item">Evaluate</span><span class="fs-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      <span class="fs-item">Explain</span><span class="fs-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      <span class="fs-item">Develop</span><span class="fs-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      <span class="fs-item">Involve</span>
+    </div>
+    <div class="tip-strip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 22h4M12 2a6.5 6.5 0 00-3.5 12c.6.4 1 1.1 1 1.9V17h5v-1.1c0-.8.4-1.5 1-1.9A6.5 6.5 0 0012 2z"></path></svg>Develop your point, then create an opportunity for your partner to respond.</div>
+  </section>
+
+  <!-- 03 Move the Discussion Forward -->
+  <section class="panel span-12">
+    <div class="p-head"><span class="p-num">03</span><h3>Move the Discussion Forward</h3></div>
+    <div class="move-grid">
+      <div class="move-col">
+        <h4>Connect Ideas</h4>
+        <div class="lang-chip">This ties in closely with…</div>
+        <div class="lang-chip">These two options are related because…</div>
+        <div class="lang-chip">Compared with…, this might have…</div>
+        <div class="lang-chip">The main similarity lies in…</div>
+        <div class="lang-chip">The advantage of this over… would be…</div>
+      </div>
+      <div class="move-col">
+        <h4>Introduce Another Perspective</h4>
+        <div class="lang-chip">Another way of looking at this is…</div>
+        <div class="lang-chip">Some people might argue that…</div>
+        <div class="lang-chip">We should also take… into account.</div>
+        <div class="lang-chip">This could be viewed differently depending on…</div>
+        <div class="lang-chip">Perhaps the wider issue is…</div>
+      </div>
+      <div class="move-col">
+        <h4>Prioritise and Compare</h4>
+        <div class="lang-chip">This strikes me as more significant than…</div>
+        <div class="lang-chip">I'd place this above… because…</div>
+        <div class="lang-chip">This could have a greater long-term impact.</div>
+        <div class="lang-chip">Of the two, this seems more practical.</div>
+        <div class="lang-chip">I'd be more inclined to prioritise…</div>
+      </div>
+    </div>
+    <div class="tip-strip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 22h4M12 2a6.5 6.5 0 00-3.5 12c.6.4 1 1.1 1 1.9V17h5v-1.1c0-.8.4-1.5 1-1.9A6.5 6.5 0 0012 2z"></path></svg>You do not need to discuss every prompt in equal detail. Explore relevant ideas, respond to your partner and keep the conversation moving.</div>
+  </section>
+
+  <!-- 04 Separate Answers or Real Interaction? -->
+  <section class="panel span-12">
+    <div class="p-head"><span class="p-num">04</span><h3>Separate Answers or Real Interaction?</h3></div>
+    <div class="interaction-row">
+      <div class="cc-box avoid">
+        <div class="cc-tag"><span class="dot"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>Two Separate Monologues</div>
+        <div class="dialogue">
+          <div class="dialogue-line"><span class="who">A</span><p>"Having a part-time job is useful because young people can earn money."</p></div>
+          <div class="dialogue-line b"><span class="who">B</span><p>"Voluntary work is useful because young people can help others."</p></div>
+        </div>
+        <ul>
+          <li>The candidates present unrelated answers.</li>
+          <li>Neither responds to the other.</li>
+          <li>No comparison or development takes place.</li>
+        </ul>
+      </div>
+      <div class="cc-box good">
+        <div class="cc-tag"><span class="dot"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>A Collaborative Discussion</div>
+        <div class="dialogue">
+          <div class="dialogue-line"><span class="who">A</span><p>"A part-time job could be valuable because it gives young people a sense of responsibility. What's your view?"</p></div>
+          <div class="dialogue-line b"><span class="who">B</span><p>"I agree to some extent, although voluntary work might develop similar skills without the pressure of earning money."</p></div>
+          <div class="dialogue-line"><span class="who">A</span><p>"That's true. Perhaps the main difference is that paid work teaches financial independence, whereas volunteering may encourage greater social awareness."</p></div>
+          <div class="dialogue-line b"><span class="who">B</span><p>"That's a good point. Which of those benefits do you think would have the greater long-term impact?"</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-strip">
+      <span class="fs-item">Listen</span><span class="fs-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      <span class="fs-item">Respond</span><span class="fs-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      <span class="fs-item">Develop</span><span class="fs-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      <span class="fs-item">Invite</span>
+    </div>
+    <div class="tip-strip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 22h4M12 2a6.5 6.5 0 00-3.5 12c.6.4 1 1.1 1 1.9V17h5v-1.1c0-.8.4-1.5 1-1.9A6.5 6.5 0 0012 2z"></path></svg>Part 3 is a conversation, not a sequence of individual speeches.</div>
+  </section>
+
+  <!-- 05 Guided Practice -->
+  <section class="panel span-12">
+    <div class="p-head"><span class="p-num">05</span><h3>Guided Practice</h3></div>
+    <div class="gp-layout-2">
+      <div class="gp-mindmap-col">
+        <span class="phase-badge">Discussion Phase · About 2 Minutes</span>
+        <div class="mindmap">
+          <svg class="mm-lines" viewBox="0 0 560 300" preserveAspectRatio="none">
+            <line x1="280" y1="165" x2="280" y2="45" stroke="var(--blue)" stroke-width="1.4"></line>
+            <line x1="280" y1="165" x2="470" y2="105" stroke="var(--blue)" stroke-width="1.4"></line>
+            <line x1="280" y1="165" x2="470" y2="235" stroke="var(--blue)" stroke-width="1.4"></line>
+            <line x1="280" y1="165" x2="90" y2="235" stroke="var(--blue)" stroke-width="1.4"></line>
+            <line x1="280" y1="165" x2="90" y2="105" stroke="var(--blue)" stroke-width="1.4"></line>
+          </svg>
+          <div class="mm-center">How might these experiences prepare young people for adult life?</div>
+          <div class="mm-prompt mm-p1">Having a part-time job</div>
+          <div class="mm-prompt mm-p2">Doing voluntary work</div>
+          <div class="mm-prompt mm-p3">Completing a challenging creative project</div>
+          <div class="mm-prompt mm-p4">Taking part in a team activity</div>
+          <div class="mm-prompt mm-p5">Studying or travelling abroad</div>
+        </div>
+      </div>
+      <div class="gp-side-col">
+        <h4 style="margin:0 0 10px;font-size:0.85rem;font-weight:700;color:var(--ink);">Six Steps to a Strong Discussion</h4>
+        <div class="gp-steps-list">
+          <div class="gp-step-row"><span class="step-circle">1</span><div><h5>Introduce</h5><p>Choose a relevant prompt and present an initial idea.</p></div></div>
+          <div class="gp-step-row"><span class="step-circle">2</span><div><h5>Evaluate</h5><p>Consider its benefits, limitations or consequences.</p></div></div>
+          <div class="gp-step-row"><span class="step-circle">3</span><div><h5>Respond</h5><p>React directly to your partner's contribution.</p></div></div>
+          <div class="gp-step-row"><span class="step-circle">4</span><div><h5>Connect</h5><p>Compare or link different prompts.</p></div></div>
+          <div class="gp-step-row"><span class="step-circle">5</span><div><h5>Involve</h5><p>Invite your partner to add another perspective.</p></div></div>
+          <div class="gp-step-row"><span class="step-circle">6</span><div><h5>Move On</h5><p>Introduce another prompt when appropriate.</p></div></div>
+        </div>
+        <div class="sample-disc">
+          <div class="sd-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="10" r="3"></circle><circle cx="17" cy="10" r="3"></circle><path d="M4 20c0-3 2-5 5-5s5 2 5 5"></path><path d="M12 20c0-3 2-5 5-5s5 2 5 5"></path></svg>Sample Discussion</div>
+          <div class="dialogue">
+            <div class="dialogue-line"><span class="who">A</span><p>"Having a part-time job could be particularly useful because it teaches young people to manage their time and take responsibility for their own work. Would you agree?"</p></div>
+            <div class="dialogue-line b"><span class="who">B</span><p>"To some extent, yes, although studying abroad might have an even greater impact. Young people would have to become independent while adapting to an unfamiliar environment."</p></div>
+            <div class="dialogue-line"><span class="who">A</span><p>"That's a fair point. Both experiences encourage independence, but in rather different ways. A job involves meeting professional expectations, whereas living abroad requires considerable personal adaptability."</p></div>
+            <div class="dialogue-line b"><span class="who">B</span><p>"Exactly. Voluntary work could also be valuable because it combines practical experience with a greater awareness of other people's needs."</p></div>
+            <div class="dialogue-line"><span class="who">A</span><p>"I hadn't considered that. It might develop empathy as well as communication skills. What about taking part in a team activity?"</p></div>
+            <div class="dialogue-line b"><span class="who">B</span><p>"That could teach cooperation, although its long-term impact might depend on how much responsibility the person is actually given."</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 Reaching a Decision -->
+  <section class="panel span-12 decision-panel">
+    <div class="p-head"><span class="p-num">06</span><h3>Reaching a Decision</h3></div>
+    <span class="phase-badge">Decision Phase · About 1 Minute</span>
+    <p class="decision-q">Now decide which two experiences would have the greatest long-term impact on a young person.</p>
+    <div class="dialogue">
+      <div class="dialogue-line"><span class="who">A</span><p>"On balance, I'd be inclined to choose having a part-time job and studying abroad. Both would require young people to become genuinely independent."</p></div>
+      <div class="dialogue-line b"><span class="who">B</span><p>"I agree about studying abroad, but I wonder whether voluntary work might have a broader impact than a part-time job, particularly in terms of empathy and social awareness."</p></div>
+      <div class="dialogue-line"><span class="who">A</span><p>"That's a valid point. However, a job may prepare someone more directly for adult responsibilities, such as managing money and meeting professional expectations."</p></div>
+      <div class="dialogue-line b"><span class="who">B</span><p>"True. In that case, could we settle on studying abroad and having a part-time job?"</p></div>
+      <div class="dialogue-line"><span class="who">A</span><p>"Yes, I'd be happy with those two because they combine personal independence with practical preparation for working life."</p></div>
+    </div>
+    <div class="flow-strip">
+      <span class="fs-item">Suggest</span><span class="fs-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      <span class="fs-item">Compare</span><span class="fs-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      <span class="fs-item">Reconsider</span><span class="fs-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      <span class="fs-item">Negotiate</span><span class="fs-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      <span class="fs-item">Conclude</span>
+    </div>
+    <div class="decision-reminder"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 22h4M12 2a6.5 6.5 0 00-3.5 12c.6.4 1 1.1 1 1.9V17h5v-1.1c0-.8.4-1.5 1-1.9A6.5 6.5 0 0012 2z"></path></svg>A decision should emerge from the discussion. Do not simply announce an answer at the beginning.</div>
+  </section>
+
+  <!-- 07 Watch Part 3 in Action -->
+  <section class="panel span-12">
+    <div class="p-head"><span class="p-num">07</span><h3>Watch Part 3 in Action</h3></div>
+    <p class="p-sub">See how candidates respond, develop ideas and negotiate a decision together.</p>
+    <div class="watch-grid">
+      <div class="watch-item">
+        <div class="vid-ph">
+          <svg class="decor" viewBox="0 0 160 90" preserveAspectRatio="none"><path d="M0 70 C30 45 55 78 80 58 S135 32 160 50 V90 H0 Z" fill="var(--blue-bg)" opacity="0.7"></path></svg>
+          <button class="vid-play" aria-label="Play video" title="Video coming soon"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,4 20,12 6,20"></polygon></svg></button>
+        </div>
+        <span class="w-label">2 Candidates</span>
+      </div>
+      <div class="watch-item">
+        <div class="vid-ph">
+          <svg class="decor" viewBox="0 0 160 90" preserveAspectRatio="none"><path d="M0 70 C30 45 55 78 80 58 S135 32 160 50 V90 H0 Z" fill="var(--blue-bg)" opacity="0.7"></path></svg>
+          <button class="vid-play" aria-label="Play video" title="Video coming soon"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,4 20,12 6,20"></polygon></svg></button>
+        </div>
+        <span class="w-label">3 Candidates</span>
+      </div>
+    </div>
+    <div class="takeaways">
+      <div class="tk-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 22h4M12 2a6.5 6.5 0 00-3.5 12c.6.4 1 1.1 1 1.9V17h5v-1.1c0-.8.4-1.5 1-1.9A6.5 6.5 0 0012 2z"></path></svg>Key Takeaways</div>
+      <ul>
+        <li>Use all five prompts as support, not as a checklist.</li>
+        <li>Respond to what your partner actually says.</li>
+        <li>Develop ideas instead of giving a series of short opinions.</li>
+        <li>Keep the discussion balanced.</li>
+        <li>Treat the decision as a separate task.</li>
+        <li>Negotiate a decision, but do not force artificial agreement.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 08 Part 3 Discussion Practice -->
+  <section class="panel span-12">
+    <div class="p-head"><span class="p-num">08</span><h3>Part 3 Discussion Practice</h3></div>
+    <p class="p-sub">Eight complete discussion sets — a central question, five prompts and a separate decision question.</p>
+    <div class="disc-track">
+
+      <div class="disc-card" data-title="Future Skills" data-q="How might these experiences help young people prepare for adult life?" data-decision="Which two experiences would have the greatest long-term impact?" data-p1="Part-time employment" data-p2="Independent travel" data-p3="Voluntary work" data-p4="Team activities" data-p5="Managing a personal project">
+        <div class="disc-head"><h4>Future Skills</h4><button class="disc-expand" onclick="openDiscModal(this)" aria-label="Expand Future Skills discussion set"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"></path></svg></button></div>
+        <div class="disc-mini-mm"><svg class="mm-lines" viewBox="0 0 100 75"><line x1="50" y1="37" x2="50" y2="10" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="24" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="24" stroke="var(--blue)" stroke-width="1.2"></line></svg><div class="mm-center-dot"></div><div class="mm-dot" style="left:47%;top:10%;"></div><div class="mm-dot" style="left:80%;top:29%;"></div><div class="mm-dot" style="left:80%;top:74%;"></div><div class="mm-dot" style="left:12%;top:74%;"></div><div class="mm-dot" style="left:12%;top:29%;"></div></div>
+        <p class="dc-q">How might these experiences help young people prepare for adult life?</p>
+        <p class="dc-decision">Which two experiences would have the greatest long-term impact?</p>
+        <span class="disc-link pending">Sample Discussion + Vocabulary</span>
+      </div>
+
+      <div class="disc-card" data-title="Education" data-q="How could these approaches make education more effective?" data-decision="Which two approaches would benefit students the most?" data-p1="Practical projects" data-p2="Personalised feedback" data-p3="Collaborative learning" data-p4="Greater student choice" data-p5="Digital resources">
+        <div class="disc-head"><h4>Education</h4><button class="disc-expand" onclick="openDiscModal(this)" aria-label="Expand Education discussion set"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"></path></svg></button></div>
+        <div class="disc-mini-mm"><svg class="mm-lines" viewBox="0 0 100 75"><line x1="50" y1="37" x2="50" y2="10" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="24" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="24" stroke="var(--blue)" stroke-width="1.2"></line></svg><div class="mm-center-dot"></div><div class="mm-dot" style="left:47%;top:10%;"></div><div class="mm-dot" style="left:80%;top:29%;"></div><div class="mm-dot" style="left:80%;top:74%;"></div><div class="mm-dot" style="left:12%;top:74%;"></div><div class="mm-dot" style="left:12%;top:29%;"></div></div>
+        <p class="dc-q">How could these approaches make education more effective?</p>
+        <p class="dc-decision">Which two approaches would benefit students the most?</p>
+        <span class="disc-link pending">Sample Discussion + Vocabulary</span>
+      </div>
+
+      <div class="disc-card" data-title="Technology" data-q="How might these developments change young people's everyday lives?" data-decision="Which development is likely to have the most significant impact?" data-p1="Artificial intelligence" data-p2="Online education" data-p3="Remote working" data-p4="Digital entertainment" data-p5="Smart public services">
+        <div class="disc-head"><h4>Technology</h4><button class="disc-expand" onclick="openDiscModal(this)" aria-label="Expand Technology discussion set"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"></path></svg></button></div>
+        <div class="disc-mini-mm"><svg class="mm-lines" viewBox="0 0 100 75"><line x1="50" y1="37" x2="50" y2="10" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="24" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="24" stroke="var(--blue)" stroke-width="1.2"></line></svg><div class="mm-center-dot"></div><div class="mm-dot" style="left:47%;top:10%;"></div><div class="mm-dot" style="left:80%;top:29%;"></div><div class="mm-dot" style="left:80%;top:74%;"></div><div class="mm-dot" style="left:12%;top:74%;"></div><div class="mm-dot" style="left:12%;top:29%;"></div></div>
+        <p class="dc-q">How might these developments change young people's everyday lives?</p>
+        <p class="dc-decision">Which development is likely to have the most significant impact?</p>
+        <span class="disc-link pending">Sample Discussion + Vocabulary</span>
+      </div>
+
+      <div class="disc-card" data-title="Environment" data-q="How effective might these actions be in protecting the environment?" data-decision="Which two actions should receive the greatest priority?" data-p1="Improving public transport" data-p2="Reducing unnecessary packaging" data-p3="Protecting green spaces" data-p4="Teaching environmental awareness" data-p5="Encouraging renewable energy">
+        <div class="disc-head"><h4>Environment</h4><button class="disc-expand" onclick="openDiscModal(this)" aria-label="Expand Environment discussion set"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"></path></svg></button></div>
+        <div class="disc-mini-mm"><svg class="mm-lines" viewBox="0 0 100 75"><line x1="50" y1="37" x2="50" y2="10" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="24" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="24" stroke="var(--blue)" stroke-width="1.2"></line></svg><div class="mm-center-dot"></div><div class="mm-dot" style="left:47%;top:10%;"></div><div class="mm-dot" style="left:80%;top:29%;"></div><div class="mm-dot" style="left:80%;top:74%;"></div><div class="mm-dot" style="left:12%;top:74%;"></div><div class="mm-dot" style="left:12%;top:29%;"></div></div>
+        <p class="dc-q">How effective might these actions be in protecting the environment?</p>
+        <p class="dc-decision">Which two actions should receive the greatest priority?</p>
+        <span class="disc-link pending">Sample Discussion + Vocabulary</span>
+      </div>
+
+      <div class="disc-card" data-title="Community" data-q="How might these initiatives strengthen local communities?" data-decision="Which initiative would bring the greatest long-term benefit?" data-p1="Volunteering programmes" data-p2="Cultural events" data-p3="Youth facilities" data-p4="Support for local businesses" data-p5="Shared public spaces">
+        <div class="disc-head"><h4>Community</h4><button class="disc-expand" onclick="openDiscModal(this)" aria-label="Expand Community discussion set"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"></path></svg></button></div>
+        <div class="disc-mini-mm"><svg class="mm-lines" viewBox="0 0 100 75"><line x1="50" y1="37" x2="50" y2="10" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="24" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="24" stroke="var(--blue)" stroke-width="1.2"></line></svg><div class="mm-center-dot"></div><div class="mm-dot" style="left:47%;top:10%;"></div><div class="mm-dot" style="left:80%;top:29%;"></div><div class="mm-dot" style="left:80%;top:74%;"></div><div class="mm-dot" style="left:12%;top:74%;"></div><div class="mm-dot" style="left:12%;top:29%;"></div></div>
+        <p class="dc-q">How might these initiatives strengthen local communities?</p>
+        <p class="dc-decision">Which initiative would bring the greatest long-term benefit?</p>
+        <span class="disc-link pending">Sample Discussion + Vocabulary</span>
+      </div>
+
+      <div class="disc-card" data-title="Wellbeing" data-q="How might these factors contribute to young people's wellbeing?" data-decision="Which two factors are most important for maintaining wellbeing?" data-p1="Supportive relationships" data-p2="Regular physical activity" data-p3="Time away from screens" data-p4="Creative interests" data-p5="A balanced routine">
+        <div class="disc-head"><h4>Wellbeing</h4><button class="disc-expand" onclick="openDiscModal(this)" aria-label="Expand Wellbeing discussion set"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"></path></svg></button></div>
+        <div class="disc-mini-mm"><svg class="mm-lines" viewBox="0 0 100 75"><line x1="50" y1="37" x2="50" y2="10" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="24" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="24" stroke="var(--blue)" stroke-width="1.2"></line></svg><div class="mm-center-dot"></div><div class="mm-dot" style="left:47%;top:10%;"></div><div class="mm-dot" style="left:80%;top:29%;"></div><div class="mm-dot" style="left:80%;top:74%;"></div><div class="mm-dot" style="left:12%;top:74%;"></div><div class="mm-dot" style="left:12%;top:29%;"></div></div>
+        <p class="dc-q">How might these factors contribute to young people's wellbeing?</p>
+        <p class="dc-decision">Which two factors are most important for maintaining wellbeing?</p>
+        <span class="disc-link pending">Sample Discussion + Vocabulary</span>
+      </div>
+
+      <div class="disc-card" data-title="Culture and Media" data-q="How might these forms of media influence young people's understanding of the world?" data-decision="Which form of media is likely to have the strongest influence?" data-p1="Documentaries" data-p2="Social media" data-p3="Podcasts" data-p4="Fiction" data-p5="News platforms">
+        <div class="disc-head"><h4>Culture &amp; Media</h4><button class="disc-expand" onclick="openDiscModal(this)" aria-label="Expand Culture and Media discussion set"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"></path></svg></button></div>
+        <div class="disc-mini-mm"><svg class="mm-lines" viewBox="0 0 100 75"><line x1="50" y1="37" x2="50" y2="10" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="24" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="24" stroke="var(--blue)" stroke-width="1.2"></line></svg><div class="mm-center-dot"></div><div class="mm-dot" style="left:47%;top:10%;"></div><div class="mm-dot" style="left:80%;top:29%;"></div><div class="mm-dot" style="left:80%;top:74%;"></div><div class="mm-dot" style="left:12%;top:74%;"></div><div class="mm-dot" style="left:12%;top:29%;"></div></div>
+        <p class="dc-q">How might these forms of media influence young people's understanding of the world?</p>
+        <p class="dc-decision">Which form of media is likely to have the strongest influence?</p>
+        <span class="disc-link pending">Sample Discussion + Vocabulary</span>
+      </div>
+
+      <div class="disc-card" data-title="Living in a City" data-q="How might these features improve the quality of life in a city?" data-decision="Which two features should city authorities prioritise?" data-p1="Reliable public transport" data-p2="Affordable housing" data-p3="Green spaces" data-p4="Cultural facilities" data-p5="Safe public areas">
+        <div class="disc-head"><h4>Living in a City</h4><button class="disc-expand" onclick="openDiscModal(this)" aria-label="Expand Living in a City discussion set"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"></path></svg></button></div>
+        <div class="disc-mini-mm"><svg class="mm-lines" viewBox="0 0 100 75"><line x1="50" y1="37" x2="50" y2="10" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="24" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="85" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="58" stroke="var(--blue)" stroke-width="1.2"></line><line x1="50" y1="37" x2="15" y2="24" stroke="var(--blue)" stroke-width="1.2"></line></svg><div class="mm-center-dot"></div><div class="mm-dot" style="left:47%;top:10%;"></div><div class="mm-dot" style="left:80%;top:29%;"></div><div class="mm-dot" style="left:80%;top:74%;"></div><div class="mm-dot" style="left:12%;top:74%;"></div><div class="mm-dot" style="left:12%;top:29%;"></div></div>
+        <p class="dc-q">How might these features improve the quality of life in a city?</p>
+        <p class="dc-decision">Which two features should city authorities prioritise?</p>
+        <span class="disc-link pending">Sample Discussion + Vocabulary</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 09 Interaction Check -->
+  <section class="panel span-12">
+    <div class="p-head" style="margin-bottom:14px;"><span class="p-num">09</span><h3>Interaction Check</h3></div>
+    <div class="ic-grid">
+      <div class="ic-card">
+        <div class="ic-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10a7 7 0 0014 0"></path><path d="M10 17v3h4v-3"></path><rect x="9" y="3" width="6" height="11" rx="3"></rect></svg></div>
+        <h5>Listen</h5>
+        <p>Did I respond to what my partner actually said?</p>
+      </div>
+      <div class="ic-card">
+        <div class="ic-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h2l2-7 3 14 2-9 2 5 2-3h3"></path></svg></div>
+        <h5>Develop</h5>
+        <p>Did I support my ideas with reasons, examples or consequences?</p>
+      </div>
+      <div class="ic-card">
+        <div class="ic-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 12a4 4 0 118 0 4 4 0 01-8 0z"></path><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg></div>
+        <h5>Connect</h5>
+        <p>Did I compare or link different prompts?</p>
+      </div>
+      <div class="ic-card">
+        <div class="ic-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18"></path><path d="M5 7l-3 6a4 4 0 008 0z"></path><path d="M19 7l-3 6a4 4 0 008 0z"></path><path d="M5 7h14"></path></svg></div>
+        <h5>Evaluate</h5>
+        <p>Did I consider advantages, limitations or long-term effects?</p>
+      </div>
+      <div class="ic-card">
+        <div class="ic-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="10" r="3"></circle><circle cx="17" cy="10" r="3"></circle><path d="M4 20c0-3 2-5 5-5s5 2 5 5"></path><path d="M12 20c0-3 2-5 5-5s5 2 5 5"></path></svg></div>
+        <h5>Involve</h5>
+        <p>Did I give my partner opportunities to contribute?</p>
+      </div>
+      <div class="ic-card">
+        <div class="ic-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 4a4 4 0 00-6 5"></path><path d="M6 20a4 4 0 006-5"></path><path d="M8 8l3 3-6.5 6.5-3-3z"></path><path d="M16 16l-3-3 6.5-6.5 3 3z"></path></svg></div>
+        <h5>Negotiate</h5>
+        <p>Did we compare alternatives before reaching a decision?</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Discussion set detail modal -->
+<div class="disc-modal-overlay" id="discModalOverlay">
+  <div class="disc-modal">
+    <button class="disc-modal-close" onclick="closeDiscModal()" aria-label="Close">✕</button>
+    <h3 class="disc-modal-title" id="discModalTitle"></h3>
+    <div class="mindmap">
+      <svg class="mm-lines" viewBox="0 0 560 300" preserveAspectRatio="none">
+        <line x1="280" y1="165" x2="280" y2="45" stroke="var(--blue)" stroke-width="1.4"></line>
+        <line x1="280" y1="165" x2="470" y2="105" stroke="var(--blue)" stroke-width="1.4"></line>
+        <line x1="280" y1="165" x2="470" y2="235" stroke="var(--blue)" stroke-width="1.4"></line>
+        <line x1="280" y1="165" x2="90" y2="235" stroke="var(--blue)" stroke-width="1.4"></line>
+        <line x1="280" y1="165" x2="90" y2="105" stroke="var(--blue)" stroke-width="1.4"></line>
+      </svg>
+      <div class="mm-center" id="discModalQ"></div>
+      <div class="mm-prompt mm-p1" id="discModalP1"></div>
+      <div class="mm-prompt mm-p2" id="discModalP2"></div>
+      <div class="mm-prompt mm-p3" id="discModalP3"></div>
+      <div class="mm-prompt mm-p4" id="discModalP4"></div>
+      <div class="mm-prompt mm-p5" id="discModalP5"></div>
+    </div>
+    <div class="disc-modal-decision">
+      <span class="pp-label">Decision Question</span>
+      <p id="discModalDecision"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openDiscModal(btn) {
+    var card = btn.closest('.disc-card');
+    document.getElementById('discModalTitle').textContent = card.getAttribute('data-title');
+    document.getElementById('discModalQ').textContent = card.getAttribute('data-q');
+    document.getElementById('discModalP1').textContent = card.getAttribute('data-p1');
+    document.getElementById('discModalP2').textContent = card.getAttribute('data-p2');
+    document.getElementById('discModalP3').textContent = card.getAttribute('data-p3');
+    document.getElementById('discModalP4').textContent = card.getAttribute('data-p4');
+    document.getElementById('discModalP5').textContent = card.getAttribute('data-p5');
+    document.getElementById('discModalDecision').textContent = card.getAttribute('data-decision');
+    document.getElementById('discModalOverlay').classList.add('open');
+  }
+  function closeDiscModal() {
+    document.getElementById('discModalOverlay').classList.remove('open');
+  }
+  document.getElementById('discModalOverlay').addEventListener('click', function (e) {
+    if (e.target === this) closeDiscModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeDiscModal();
+  });
+</script>
+<div class="final-band">
+  <div class="fb-inner">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+    <p>Listen actively. Build on ideas. Negotiate rather than compete.</p>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+  </div>
+</div>
+
+<footer>
+  C1 Advanced Prep — Speaking · Part 3
+  <span class="credit">Site by Alina Iuga</span>
+</footer>
+
+<script id="site-nav-js">
+  document.querySelectorAll('header.nav .nav-item').forEach(function (item) {
+    var t = item.querySelector('.nav-trigger');
+    t.addEventListener('click', function (e) {
+      if (window.matchMedia('(hover: none)').matches && !item.classList.contains('open')) { e.preventDefault(); item.classList.add('open'); }
+    });
+  });
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('header.nav .nav-item.open').forEach(function (i) { if (!i.contains(e.target)) i.classList.remove('open'); });
+  });
+</script>
+</body>
+</html>
