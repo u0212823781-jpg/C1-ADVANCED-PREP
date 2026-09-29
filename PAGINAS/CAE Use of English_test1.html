@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C1 Advanced Prep — Use of English · Test 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #B9CEE0; --blue-sky: #AFCBE0; --blue-bg: #E8F1F7; --blue-bg-strong: #DCE9F1; --blue-dark: #4E6F8A;
+    --peach: #EAB9A8; --peach-bg: #F8E8E1; --peach-dark: #B8735D;
+    --bg: #FCFAF7; --card: #FFFFFF; --panel: #FFFFFF; --ink: #34404A; --ink-soft: #5F6B75; --line: #E7E2DB;
+    --ok: #4E7A63; --ok-bg: #E7F0EA; --no: #A2574A; --no-bg: #F8E8E1;
+    --display: 'Fraunces', Georgia, serif; --body: 'Inter', system-ui, sans-serif; --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --maxw: 1120px; --fs: 1;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; overflow-x: hidden; background: var(--bg); color: var(--ink); font-family: var(--body); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+
+  /* ===== Nav ===== */
+  header.nav { position: sticky; top: 0; z-index: 50; background: rgba(252,250,247,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .brand-group { display: flex; align-items: baseline; gap: 14px; }
+  .brand { font-family: var(--display); font-weight: 600; font-size: 1.12rem; display: flex; align-items: center; gap: 9px; }
+  .brand-mark { width: 12px; height: 12px; border-radius: 3px; background: var(--peach); box-shadow: 5px 5px 0 var(--blue); }
+  .brand-crumb { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-soft); letter-spacing: 0.5px; }
+  .brand-crumb:hover { color: var(--blue-dark); }
+  nav.links { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  nav.links > a, .nav-trigger { font-size: 0.8rem; font-weight: 600; padding: 7px 10px; border-radius: 8px; color: var(--ink-soft); display: inline-block; }
+  nav.links > a:hover, .nav-trigger:hover { background: var(--blue-bg); color: var(--ink); }
+  .nav-trigger.active { color: var(--ink); background: var(--blue-bg); }
+  .caret { font-size: 0.7rem; opacity: 0.6; }
+  .nav-item { position: relative; }
+  .nav-dropdown { position: absolute; top: calc(100% + 6px); right: 0; min-width: 250px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 6px; box-shadow: 0 14px 30px -18px rgba(52,64,74,0.35); opacity: 0; visibility: hidden; transform: translateY(-4px); transition: .15s ease; }
+  .nav-item:hover .nav-dropdown, .nav-item:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 8px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; color: var(--ink-soft); }
+  .nav-dropdown a:hover, .nav-dropdown a.active { background: var(--blue-bg); color: var(--ink); }
+  .nav-dropdown .soon { display: block; padding: 8px 10px; font-size: 0.78rem; color: var(--ink-soft); opacity: 0.55; }
+
+  /* ===== Hero ===== */
+  .hero { position: relative; overflow: hidden; padding: 20px 32px 22px; background: var(--blue-bg); }
+  .hero-inner { max-width: var(--maxw); margin: 0 auto; position: relative; z-index: 1; }
+  .subnav { display: flex; justify-content: flex-end; gap: 4px; font-size: 0.76rem; font-weight: 600; color: var(--blue-dark); margin-bottom: 6px; flex-wrap: wrap; }
+  .subnav a { padding: 3px 6px; border-radius: 6px; }
+  .subnav a.active, .subnav a:hover { background: rgba(255,255,255,0.6); }
+  .subnav .sep { color: var(--ink-soft); opacity: 0.5; }
+  .hero-text { text-align: center; }
+  .kicker { font-family: var(--mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--blue-dark); display: inline-flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+  .kicker::before, .kicker::after { content: ""; width: 22px; height: 1px; background: currentColor; opacity: .5; }
+  .hero-text h1 { font-family: var(--display); font-size: clamp(1.9rem, 3.6vw, 2.6rem); margin: 0 0 6px; font-weight: 600; letter-spacing: -0.5px; line-height: 1.08; }
+  .hero-text p { margin: 0 auto; font-size: 1rem; color: var(--ink-soft); max-width: 520px; }
+  .hero-rule { width: 50px; height: 3px; background: var(--peach-dark); margin: 14px auto 0; border-radius: 2px; }
+  .hero-bleed { position: absolute; top: 50%; right: 18px; transform: translateY(-50%); width: 180px; height: 180px; opacity: 0.85; pointer-events: none; }
+
+  /* ===== Layout ===== */
+  main { max-width: var(--maxw); margin: 0 auto; padding: 20px 32px 10px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; margin-bottom: 14px; }
+  .p-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+  .p-num { font-family: var(--mono); font-weight: 700; color: var(--blue-dark); font-size: 0.92rem; }
+  .p-head h2 { margin: 0; font-size: 1.05rem; font-weight: 700; font-family: var(--body); }
+  .p-sub { font-size: 0.86rem; color: var(--ink-soft); margin: 0 0 12px 30px; }
+
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+  .fact { background: var(--blue-bg); border-radius: 10px; padding: 10px 12px; }
+  .fact b { display: block; font-family: var(--display); font-size: 1.3rem; font-weight: 600; color: var(--blue-dark); line-height: 1.1; }
+  .fact span { font-size: 0.76rem; color: var(--ink-soft); }
+  .tips { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .tip { display: flex; gap: 10px; align-items: flex-start; background: var(--peach-bg); border-radius: 10px; padding: 10px 12px; }
+  .tip-n { font-family: var(--mono); font-size: 0.74rem; font-weight: 700; color: var(--peach-dark); padding-top: 2px; }
+  .tip h5 { margin: 0 0 2px; font-size: 0.84rem; }
+  .tip p { margin: 0; font-size: 0.8rem; color: var(--ink-soft); line-height: 1.4; }
+
+  
+  .size-ctrl { display: flex; align-items: center; gap: 4px; font-family: var(--mono); font-size: 0.7rem; color: var(--ink-soft); }
+  .size-ctrl button { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 8px; padding: 5px 9px; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
+  .size-ctrl button:hover { border-color: var(--blue-dark); }
+  
+  .q-actions, .v-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--blue-dark); background: var(--blue-dark); color: #fff; font-weight: 600; font-size: 0.78rem; padding: 7px 12px; border-radius: 8px; cursor: pointer; }
+  .btn.ghost { background: var(--card); color: var(--blue-dark); border-color: var(--blue); }
+  .btn.ghost:hover:not(:disabled) { background: var(--blue-bg); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn.small { padding: 5px 10px; font-size: 0.74rem; }
+  .btn.big { padding: 10px 18px; font-size: 0.86rem; }
+  .result { font-size: 0.8rem; font-weight: 700; }
+  .result.ok { color: var(--ok); } .result.no { color: var(--no); }
+  
+  .tag { display: inline-block; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: var(--blue-bg); color: var(--blue-dark); padding: 2px 7px; border-radius: 5px; margin-right: 8px; }
+  .tag.peach { background: var(--peach-bg); color: var(--peach-dark); }
+  
+  .zoom-btn { border: 1px solid var(--line); background: var(--card); color: var(--blue-dark); border-radius: 7px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .zoom-btn:hover { border-color: var(--blue-dark); }
+
+  
+  .score-row { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; background: var(--blue-bg-strong); border-radius: 14px; padding: 14px 18px; margin: 4px 0 14px; }
+  .score-row .score { font-family: var(--display); font-weight: 600; font-size: 1.15rem; }
+
+  
+  :root { --p1: #4E6F8A; --p1-bg: #E8F1F7; --p2: #B8735D; --p2-bg: #F8E8E1; --p3: #9C7A4A; --p3-bg: #F5EDE0; --p4: #34404A; --p4-bg: #ECEEF0; }
+  .p1 { --pc: var(--p1); --pbg: var(--p1-bg); } .p2 { --pc: var(--p2); --pbg: var(--p2-bg); }
+  .p3 { --pc: var(--p3); --pbg: var(--p3-bg); } .p4 { --pc: var(--p4); --pbg: var(--p4-bg); }
+  .top-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .jump { display: flex; gap: 6px; flex-wrap: wrap; }
+  .jump a { font-size: 0.78rem; font-weight: 700; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); }
+  .jump a:nth-child(1) { color: var(--p1); } .jump a:nth-child(2) { color: var(--p2); } .jump a:nth-child(3) { color: var(--p3); } .jump a:nth-child(4) { color: var(--p4); }
+  .part { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--pc); border-radius: 14px; padding: 18px 22px; margin-bottom: 16px; scroll-margin-top: 80px; }
+  .instr { margin: 0 0 12px; font-size: 0.9rem; color: var(--ink-soft); }
+  .part-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .part-tag { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; background: var(--pc); padding: 4px 10px; border-radius: 6px; flex: none; }
+  .part-head h2 { margin: 0; flex: 1; text-align: center; font-family: var(--display); font-weight: 600; font-size: 1.35rem; color: var(--ink); }
+  .part-body { font-size: calc(1rem * var(--fs)); line-height: 2.1; }
+  .part-body p.text { margin: 0 0 14px; }
+  .chip { display: inline-block; font-weight: 700; color: var(--pc); background: var(--pbg); border-radius: 6px; padding: 0 7px; line-height: 1.6; font-size: 0.92em; }
+  .chip.ex { opacity: 0.8; font-weight: 600; }
+  .chip.correct { background: var(--ok-bg); color: var(--ok); } .chip.wrong { background: var(--no-bg); color: var(--no); }
+  .gap { display: inline-flex; align-items: baseline; gap: 4px; white-space: nowrap; }
+  .g-n { font-family: var(--mono); font-size: 0.72em; font-weight: 700; color: #fff; background: var(--pc); border-radius: 5px; padding: 1px 6px; }
+  .gap input, .kwt input { font-family: inherit; font-size: inherit; color: var(--ink); border: 0; border-bottom: 1.5px dashed var(--pc); background: transparent; outline: none; padding: 0 4px; }
+  .gap input { width: 130px; }
+  .gap input:focus, .kwt input:focus { background: var(--pbg); }
+  input.correct { border-bottom: 2px solid var(--ok) !important; background: var(--ok-bg) !important; }
+  input.wrong { border-bottom: 2px solid var(--no) !important; background: var(--no-bg) !important; }
+  .cap { font-size: 0.82em; letter-spacing: 0.5px; color: var(--pc); }
+  .mc-list { display: flex; flex-direction: column; gap: 8px; line-height: 1.5; }
+  .mc { display: grid; grid-template-columns: 30px 1fr; gap: 8px; align-items: start; }
+  .mc-n { font-family: var(--mono); font-weight: 700; font-size: 0.8rem; color: var(--pc); background: var(--pbg); border-radius: 7px; width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; flex: none; margin-right: 8px; }
+  .mc-opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .mc-opts label { border: 1px solid var(--line); border-radius: 9px; padding: 5px 9px; cursor: pointer; font-size: 0.92em; }
+  .mc-opts label:hover { border-color: var(--pc); }
+  .mc-opts input { display: none; }
+  .mc-opts b { color: var(--pc); margin-right: 4px; }
+  .mc-opts label:has(input:checked) { background: var(--pbg); border-color: var(--pc); }
+  .mc-opts label.correct { background: var(--ok-bg); border-color: var(--ok); } .mc-opts label.wrong { background: var(--no-bg); border-color: var(--no); }
+  .mc .exp { grid-column: 2; }
+  .kwt { border-bottom: 1px solid var(--line); padding: 12px 0; line-height: 1.6; }
+  .kwt:last-child { border-bottom: 0; }
+  .kwt p { margin: 0; }
+  .kwt .s1 { display: flex; align-items: flex-start; }
+  .kwt .key { margin: 6px 0 6px 34px; font-family: var(--mono); font-weight: 700; letter-spacing: 2px; color: var(--pc); }
+  .kwt .s2 { margin-left: 34px; }
+  .kwt input { width: min(320px, 70vw); }
+  .wc { margin: 4px 0 0 34px !important; font-family: var(--mono); font-size: 0.7rem; color: var(--ink-soft); }
+  .wc.bad { color: var(--no); font-weight: 700; }
+  .rule { margin: 0 0 12px; background: var(--pbg); border-radius: 10px; padding: 10px 14px; font-size: 0.88rem; line-height: 1.5; }
+  .rule b { color: var(--pc); }
+  .exp { display: none; background: var(--bg); border: 1px solid var(--line); border-left: 3px solid var(--pc); border-radius: 8px; padding: 8px 12px; margin: 6px 0 4px; font-size: calc(0.86rem * var(--fs)); line-height: 1.5; }
+  .exp.show { display: block; }
+  .exp p { margin: 0 0 4px; }
+  .exp u { text-decoration-color: var(--pc); text-underline-offset: 3px; }
+  .exp-list { margin-top: 6px; }
+  .part-actions { display: flex; align-items: center; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+  .part .btn { background: var(--pc); border-color: var(--pc); }
+  .pscore { font-weight: 700; font-size: 0.86rem; }
+  .total { font-family: var(--display); font-weight: 600; font-size: 1.1rem; }
+  /* ===== Zoom modal ===== */
+  .modal { position: fixed; inset: 0; background: rgba(52,64,74,0.45); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+  .modal.show { display: flex; }
+  .modal-box { background: var(--card); border-radius: 16px; width: min(900px, 100%); max-height: 88vh; overflow: auto; padding: 22px 26px; position: relative; }
+  .modal-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; position: sticky; top: -22px; background: var(--card); padding: 6px 0; }
+  .modal-content { font-size: calc(1.3rem * var(--mz)); line-height: 1.6; }
+  .modal-content .exp { display: block; border: 0; padding: 0; margin: 0; font-size: inherit; }
+  .modal-content .zoom-btn { display: none; }
+  .close { border: 1px solid var(--line); background: var(--card); border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer; }
+
+  footer { padding: 22px 32px 34px; text-align: center; color: var(--ink-soft); font-size: 0.78rem; font-family: var(--mono); }
+  footer .credit { display: block; margin-top: 8px; opacity: 0.6; font-size: 0.72rem; letter-spacing: 0.3px; }
+
+  
+  .modal-content .exp { display: block; }
+  .modal-content input { font-size: inherit; }
+  @media (max-width: 900px) { .hero-bleed { display: none; } .nav-inner { flex-direction: column; align-items: flex-start; gap: 10px; } .mc-opts { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .nav-inner, .hero, main, footer { padding-left: 16px; padding-right: 16px; } .part { padding: 14px; } .nav-dropdown { left: 0; right: auto; min-width: 0; width: min(86vw, 250px); } .kwt .key, .kwt .s2, .wc { margin-left: 0 !important; } .part-head h2 { font-size: 1.1rem; } }
+</style>
+</head>
+<body style="--mz:1">
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand-group">
+      <div class="brand"><span class="brand-mark"></span>C1 Advanced Prep</div>
+      <a class="brand-crumb" href="CAE_Exam_Essentials.html">Exam Essentials</a>
+    </div>
+    <nav class="links">
+      <div class="nav-item">
+        <a href="#" class="nav-trigger active">Use of English <span class="caret">▾</span></a>
+        <div class="nav-dropdown">
+          <span class="soon">Overview — coming soon</span>
+          <a href="CAE Use of English_test1.html" class="active">Practice Test 1 (Parts 1–4)</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#" class="nav-trigger">Reading <span class="caret">▾</span></a>
+        <div class="nav-dropdown">
+          <span class="soon">Overview — coming soon</span>
+          <a href="CAE Reading_part5_unit1.html">Part 5 — Unit 1: Mind &amp; technology</a>
+        </div>
+      </div>
+      <a href="#">Writing</a>
+      <a href="#">Listening</a>
+      <div class="nav-item">
+        <a href="CAE Speaking_general.html" class="nav-trigger">Speaking <span class="caret">▾</span></a>
+        <div class="nav-dropdown">
+          <a href="CAE Speaking_general.html">Overview</a>
+          <a href="CAE Speaking_part1.html">Part 1 — Interview</a>
+          <a href="CAE Speaking_part2.html">Part 2 — Long Turn</a>
+          <a href="CAE Speaking_part3.html">Part 3 — Collaborative Task</a>
+          <a href="CAE Speaking_part4.html">Part 4 — Discussion</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <svg class="hero-bleed" viewBox="0 0 200 200" fill="none" stroke="#9DB7CC" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="36" y="34" width="128" height="132" rx="10"/>
+    <path d="M56 66h36M104 66h40M56 90h22M92 90h52M56 114h48M118 114h26M56 138h30"/>
+    <rect x="92" y="84" width="26" height="12" rx="3" stroke="#B8735D"/>
+  </svg>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="kicker">Use of English · Practice Test 1</span>
+      <h1>Parts 1–4</h1>
+      <p>Four tasks, 30 questions. Check each part as you finish it, then read the explanations.</p>
+      <div class="hero-rule"></div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="top-bar">
+    <div class="jump"><a href="#part1">Part 1 · Multiple-choice cloze</a><a href="#part2">Part 2 · Open cloze</a><a href="#part3">Part 3 · Word formation</a><a href="#part4">Part 4 · Key word transformations</a></div>
+    <div class="size-ctrl"><span>Text size</span><button onclick="fs(-0.1)" aria-label="Smaller text">A−</button><button onclick="fs(0.1)" aria-label="Larger text">A+</button></div>
+  </div>
+
+  
+<section class="part p1" id="part1">
+  <p class="instr">For questions 1–8, read the text below and decide which answer (A, B, C or D) best fits each gap. There is an example at the beginning (0).</p>
+  <div class="part-head"><span class="part-tag">Part 1</span><h2>The four-day week</h2><button class="zoom-btn" onclick="zoom('body1')" aria-label="Enlarge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
+  <div class="part-body" id="body1"><p class="text">The idea of working four days instead of five has <span class="chip ex">(0) gained</span> considerable attention in recent years. Supporters argue that a shorter week does not <span class="chip" id="c1">(1) <span class="fill">______</span></span> lead to lower productivity. On the contrary, several large-scale trials have found that staff who are given an extra day off tend to work more efficiently and <span class="chip" id="c2">(2) <span class="fill">______</span></span> fewer days off sick. Employers taking part in these trials have also reported that it is easier to <span class="chip" id="c3">(3) <span class="fill">______</span></span> talented workers, who are less likely to leave for a competitor. However, critics point out that the model is far from suitable for every <span class="chip" id="c4">(4) <span class="fill">______</span></span> of business. Hospitals, schools and shops cannot simply close for an extra day, and in these sectors the change may <span class="chip" id="c5">(5) <span class="fill">______</span></span> to little more than longer shifts rather than genuine free time. There are also concerns that some staff may feel under <span class="chip" id="c6">(6) <span class="fill">______</span></span> to squeeze five days of work into four, which could lead to higher levels of stress. Whether the four-day week will <span class="chip" id="c7">(7) <span class="fill">______</span></span> on in the long term is still uncertain. What seems clear, however, is that the traditional nine-to-five week can no longer be <span class="chip" id="c8">(8) <span class="fill">______</span></span> for granted.</p><div class="mc-list"><div class="mc" data-n="1" data-ans="B"><span class="mc-n">1</span><div class="mc-opts"><label><input type="radio" name="m1" value="A" data-word="absolutely"><b>A</b> absolutely</label><label><input type="radio" name="m1" value="B" data-word="necessarily"><b>B</b> necessarily</label><label><input type="radio" name="m1" value="C" data-word="entirely"><b>C</b> entirely</label><label><input type="radio" name="m1" value="D" data-word="utterly"><b>D</b> utterly</label></div><div class="exp" id="x1"><p><span class="tag">Answer</span><b>B – necessarily</b></p><p>We say something does <u>not necessarily</u> happen = it does not always happen. The other words do not go with 'not ... lead to'.</p></div></div><div class="mc" data-n="2" data-ans="C"><span class="mc-n">2</span><div class="mc-opts"><label><input type="radio" name="m2" value="A" data-word="make"><b>A</b> make</label><label><input type="radio" name="m2" value="B" data-word="do"><b>B</b> do</label><label><input type="radio" name="m2" value="C" data-word="take"><b>C</b> take</label><label><input type="radio" name="m2" value="D" data-word="get"><b>D</b> get</label></div><div class="exp" id="x2"><p><span class="tag">Answer</span><b>C – take</b></p><p>The fixed phrase is <u>take days off (sick)</u>. We never say 'make' or 'do' days off.</p></div></div><div class="mc" data-n="3" data-ans="D"><span class="mc-n">3</span><div class="mc-opts"><label><input type="radio" name="m3" value="A" data-word="sustain"><b>A</b> sustain</label><label><input type="radio" name="m3" value="B" data-word="remain"><b>B</b> remain</label><label><input type="radio" name="m3" value="C" data-word="contain"><b>C</b> contain</label><label><input type="radio" name="m3" value="D" data-word="retain"><b>D</b> retain</label></div><div class="exp" id="x3"><p><span class="tag">Answer</span><b>D – retain</b></p><p>To <u>retain workers</u> means to keep them in the company. 'Remain' has no object, and 'sustain' and 'contain' have different meanings.</p></div></div><div class="mc" data-n="4" data-ans="A"><span class="mc-n">4</span><div class="mc-opts"><label><input type="radio" name="m4" value="A" data-word="line"><b>A</b> line</label><label><input type="radio" name="m4" value="B" data-word="row"><b>B</b> row</label><label><input type="radio" name="m4" value="C" data-word="field"><b>C</b> field</label><label><input type="radio" name="m4" value="D" data-word="chain"><b>D</b> chain</label></div><div class="exp" id="x4"><p><span class="tag">Answer</span><b>A – line</b></p><p><u>Line of business</u> means a type of business or work. 'Field' is close, but we say 'field of work', not 'field of business'.</p></div></div><div class="mc" data-n="5" data-ans="C"><span class="mc-n">5</span><div class="mc-opts"><label><input type="radio" name="m5" value="A" data-word="count"><b>A</b> count</label><label><input type="radio" name="m5" value="B" data-word="equal"><b>B</b> equal</label><label><input type="radio" name="m5" value="C" data-word="amount"><b>C</b> amount</label><label><input type="radio" name="m5" value="D" data-word="add"><b>D</b> add</label></div><div class="exp" id="x5"><p><span class="tag">Answer</span><b>C – amount</b></p><p><u>Amount to</u> means 'be the same as in the end'. 'Equal' has no 'to', and 'add' needs 'up to'.</p></div></div><div class="mc" data-n="6" data-ans="B"><span class="mc-n">6</span><div class="mc-opts"><label><input type="radio" name="m6" value="A" data-word="stress"><b>A</b> stress</label><label><input type="radio" name="m6" value="B" data-word="pressure"><b>B</b> pressure</label><label><input type="radio" name="m6" value="C" data-word="force"><b>C</b> force</label><label><input type="radio" name="m6" value="D" data-word="tension"><b>D</b> tension</label></div><div class="exp" id="x6"><p><span class="tag">Answer</span><b>B – pressure</b></p><p>The phrase is <u>feel under pressure to</u> do something. The other nouns do not go with 'under ... to'.</p></div></div><div class="mc" data-n="7" data-ans="D"><span class="mc-n">7</span><div class="mc-opts"><label><input type="radio" name="m7" value="A" data-word="take"><b>A</b> take</label><label><input type="radio" name="m7" value="B" data-word="get"><b>B</b> get</label><label><input type="radio" name="m7" value="C" data-word="pick"><b>C</b> pick</label><label><input type="radio" name="m7" value="D" data-word="catch"><b>D</b> catch</label></div><div class="exp" id="x7"><p><span class="tag">Answer</span><b>D – catch</b></p><p><u>Catch on</u> means 'become popular'. 'Take on', 'get on' and 'pick on' have completely different meanings.</p></div></div><div class="mc" data-n="8" data-ans="B"><span class="mc-n">8</span><div class="mc-opts"><label><input type="radio" name="m8" value="A" data-word="held"><b>A</b> held</label><label><input type="radio" name="m8" value="B" data-word="taken"><b>B</b> taken</label><label><input type="radio" name="m8" value="C" data-word="kept"><b>C</b> kept</label><label><input type="radio" name="m8" value="D" data-word="given"><b>D</b> given</label></div><div class="exp" id="x8"><p><span class="tag">Answer</span><b>B – taken</b></p><p>The fixed phrase is <u>take something for granted</u> = believe it will always be true or always exist.</p></div></div></div></div>
+  
+  <div class="part-actions"><button class="btn" onclick="checkPart(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check Part 1</button><span class="pscore" id="ps1"></span></div>
+</section>
+  
+<section class="part p2" id="part2">
+  <p class="instr">For questions 9–16, read the text below and think of the word which best fits each gap. Use only one word in each gap. There is an example at the beginning (0).</p>
+  <div class="part-head"><span class="part-tag">Part 2</span><h2>Why songs get stuck in our heads</h2><button class="zoom-btn" onclick="zoom('body2')" aria-label="Enlarge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
+  <div class="part-body" id="body2"><p class="text">Most of us have had the experience of a tune getting stuck in <span class="chip ex">(0) our</span> head for hours, <span class="gap"><span class="g-n">9</span><input type="text" id="i9" autocomplete="off" spellcheck="false" aria-label="Question 9"></span> matter how hard we try to forget it. Psychologists refer to this as an 'earworm', and research suggests that <span class="gap"><span class="g-n">10</span><input type="text" id="i10" autocomplete="off" spellcheck="false" aria-label="Question 10"></span> than ninety percent of people experience one at least once a week. Songs are particularly likely to stick if they are simple, repetitive and have been heard recently, <span class="gap"><span class="g-n">11</span><input type="text" id="i11" autocomplete="off" spellcheck="false" aria-label="Question 11"></span> is why advertisers are so fond of catchy jingles. Interestingly, the tune is rarely remembered in full. <span class="gap"><span class="g-n">12</span><input type="text" id="i12" autocomplete="off" spellcheck="false" aria-label="Question 12"></span>, we tend to replay the same short section over and over again, as <span class="gap"><span class="g-n">13</span><input type="text" id="i13" autocomplete="off" spellcheck="false" aria-label="Question 13"></span> our brain were trying to complete an unfinished task. Some researchers believe that earworms are most <span class="gap"><span class="g-n">14</span><input type="text" id="i14" autocomplete="off" spellcheck="false" aria-label="Question 14"></span> to occur when the mind is not fully occupied, <span class="gap"><span class="g-n">15</span><input type="text" id="i15" autocomplete="off" spellcheck="false" aria-label="Question 15"></span> as when we are walking or doing housework. The good news is that there appears to be a simple cure: chewing gum. Studies have shown that it makes <span class="gap"><span class="g-n">16</span><input type="text" id="i16" autocomplete="off" spellcheck="false" aria-label="Question 16"></span> harder for the brain to 'hear' the song, because the movement of the jaw interferes with our inner voice.</p><div class="exp-list"><div class="exp" id="x9"><p><span class="tag">Answer</span><b>9. no</b></p><p><u>No matter how</u> + adjective/adverb means 'it is not important how much'.</p></div><div class="exp" id="x10"><p><span class="tag">Answer</span><b>10. more</b></p><p><u>More than</u> + number means 'over'. The word 'than' after the gap is the clue.</p></div><div class="exp" id="x11"><p><span class="tag">Answer</span><b>11. which</b></p><p><u>Which is why</u> refers back to the whole idea before the comma. 'That' is not possible after a comma.</p></div><div class="exp" id="x12"><p><span class="tag">Answer</span><b>12. instead</b></p><p><u>Instead</u> shows the opposite of the sentence before: we don't remember the whole song; instead, we replay a small part.</p></div><div class="exp" id="x13"><p><span class="tag">Answer</span><b>13. if / though</b></p><p><u>As if / as though</u> + past form ('were') compares with something that is not really true.</p></div><div class="exp" id="x14"><p><span class="tag">Answer</span><b>14. likely</b></p><p><u>Be (most) likely to</u> + verb means 'probably happen'. 'Most' before the gap is the clue.</p></div><div class="exp" id="x15"><p><span class="tag">Answer</span><b>15. such</b></p><p><u>Such as</u> introduces examples: walking or doing housework.</p></div><div class="exp" id="x16"><p><span class="tag">Answer</span><b>16. it</b></p><p><u>Make it harder for someone to</u> do something. 'It' is needed as the object, because the real object comes later ('to hear the song').</p></div></div></div>
+  
+  <div class="part-actions"><button class="btn" onclick="checkPart(2)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check Part 2</button><span class="pscore" id="ps2"></span></div>
+</section>
+  
+<section class="part p3" id="part3">
+  <p class="instr">For questions 17–24, read the text below. Use the word given in capitals at the end of some of the lines to form a word that fits in the gap in the same line. There is an example at the beginning (0).</p>
+  <div class="part-head"><span class="part-tag">Part 3</span><h2>Science for everyone</h2><button class="zoom-btn" onclick="zoom('body3')" aria-label="Enlarge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
+  <div class="part-body" id="body3"><p class="text">Citizen science projects invite members of the public to make a real <span class="chip ex">(0) contribution</span> <b class="cap">CONTRIBUTE</b> to research. Thanks to smartphones, taking part has never been more <span class="gap"><span class="g-n">17</span><input type="text" id="i17" autocomplete="off" spellcheck="false" aria-label="Question 17"><b class="cap">ACCESS</b></span>. Volunteers may count birds, classify galaxies or record the <span class="gap"><span class="g-n">18</span><input type="text" id="i18" autocomplete="off" spellcheck="false" aria-label="Question 18"><b class="cap">APPEAR</b></span> of the first flowers in spring. In the past, many scientists questioned the <span class="gap"><span class="g-n">19</span><input type="text" id="i19" autocomplete="off" spellcheck="false" aria-label="Question 19"><b class="cap">RELY</b></span> of data collected by amateurs, and early results were often <span class="gap"><span class="g-n">20</span><input type="text" id="i20" autocomplete="off" spellcheck="false" aria-label="Question 20"><b class="cap">COMPLETE</b></span>. However, recent studies have shown that, with proper training, volunteers can be <span class="gap"><span class="g-n">21</span><input type="text" id="i21" autocomplete="off" spellcheck="false" aria-label="Question 21"><b class="cap">SURPRISE</b></span> accurate. Such projects also help to raise public <span class="gap"><span class="g-n">22</span><input type="text" id="i22" autocomplete="off" spellcheck="false" aria-label="Question 22"><b class="cap">AWARE</b></span> of environmental issues, and many participants describe the experience as deeply <span class="gap"><span class="g-n">23</span><input type="text" id="i23" autocomplete="off" spellcheck="false" aria-label="Question 23"><b class="cap">REWARD</b></span>. The main challenge for researchers is to keep volunteers <span class="gap"><span class="g-n">24</span><input type="text" id="i24" autocomplete="off" spellcheck="false" aria-label="Question 24"><b class="cap">MOTIVE</b></span> over long periods, since interest tends to fade once the novelty wears off.</p><div class="exp-list"><div class="exp" id="x17"><p><span class="tag">Answer</span><b>17. accessible</b></p><p>After 'more' we need an adjective: <u>more accessible</u> = easier to use or join.</p></div><div class="exp" id="x18"><p><span class="tag">Answer</span><b>18. appearance</b></p><p>After 'the' we need a noun: <u>the appearance of</u> = the moment something appears.</p></div><div class="exp" id="x19"><p><span class="tag">Answer</span><b>19. reliability</b></p><p>After 'the' and before 'of' we need a noun: <u>the reliability of data</u> = how much we can trust it.</p></div><div class="exp" id="x20"><p><span class="tag">Answer</span><b>20. incomplete</b></p><p>'Were often' needs an adjective. The meaning is negative (scientists questioned the data), so we add a prefix: <u>incomplete</u>.</p></div><div class="exp" id="x21"><p><span class="tag">Answer</span><b>21. surprisingly</b></p><p>Before the adjective 'accurate' we need an adverb: <u>surprisingly accurate</u>.</p></div><div class="exp" id="x22"><p><span class="tag">Answer</span><b>22. awareness</b></p><p><u>Raise awareness of</u> is a fixed phrase. After 'public' we need a noun.</p></div><div class="exp" id="x23"><p><span class="tag">Answer</span><b>23. rewarding</b></p><p>After 'deeply' we need an adjective that describes the experience: <u>rewarding</u> = it gives you satisfaction.</p></div><div class="exp" id="x24"><p><span class="tag">Answer</span><b>24. motivated</b></p><p><u>Keep someone + adjective</u>. The volunteers feel the motivation, so we use the -ed adjective: <u>motivated</u>.</p></div></div></div>
+  
+  <div class="part-actions"><button class="btn" onclick="checkPart(3)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check Part 3</button><span class="pscore" id="ps3"></span></div>
+</section>
+  
+<section class="part p4" id="part4">
+  <p class="instr">For questions 25–30, complete the second sentence so that it has a similar meaning to the first sentence, using the word given. Do not change the word given. You must use between three and six words, including the word given.</p>
+  <div class="part-head"><span class="part-tag">Part 4</span><button class="zoom-btn" onclick="zoom('body4')" aria-label="Enlarge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
+  <div class="part-body" id="body4"><div class="rule"><b>Remember:</b> write between <b>three and six words</b>, including the word given. Do not change the word given. Contractions count as two words (can't = can not). <br><b>Example:</b> James would only speak to the head of department. <b>ON</b> → James <b>insisted on speaking</b> to the head of department.</div><div class="kwt" data-n="25">
+  <p class="s1"><span class="mc-n">25</span>I didn't realise how difficult the exam would be until I started studying for it.</p>
+  <p class="key">ONLY</p>
+  <p class="s2">It was <input type="text" id="i25" autocomplete="off" spellcheck="false" aria-label="Question 25"> studying for it that I realised how difficult the exam would be.</p>
+  <p class="wc" id="w25">0 words</p>
+  <div class="exp" id="x25"><p><span class="tag">Answer</span><b>only when I started / only after I started / only once I started</b></p><p><u>It was only when ... that ...</u> is a way to give emphasis to the moment something happened. We need 'when' + past simple: 'only when I started'.</p></div>
+</div><div class="kwt" data-n="26">
+  <p class="s1"><span class="mc-n">26</span>People say that the castle was built in the twelfth century.</p>
+  <p class="key">SAID</p>
+  <p class="s2">The castle <input type="text" id="i26" autocomplete="off" spellcheck="false" aria-label="Question 26"> in the twelfth century.</p>
+  <p class="wc" id="w26">0 words</p>
+  <div class="exp" id="x26"><p><span class="tag">Answer</span><b>is said to have been built</b></p><p><u>is said to have been built</u>: 'is said to' + 'have been' + past participle, because the building happened in the past and the castle did not build itself (passive).</p></div>
+</div><div class="kwt" data-n="27">
+  <p class="s1"><span class="mc-n">27</span>It was wrong of you to borrow my car without asking.</p>
+  <p class="key">SHOULD</p>
+  <p class="s2">You <input type="text" id="i27" autocomplete="off" spellcheck="false" aria-label="Question 27"> my car without asking.</p>
+  <p class="wc" id="w27">0 words</p>
+  <div class="exp" id="x27"><p><span class="tag">Answer</span><b>should not have borrowed / shouldn't have borrowed</b></p><p>We use <u>should not have + past participle</u> to criticise something that somebody did in the past.</p></div>
+</div><div class="kwt" data-n="28">
+  <p class="s1"><span class="mc-n">28</span>Sarah was very upset, but she continued with her speech.</p>
+  <p class="key">WENT</p>
+  <p class="s2">Despite <input type="text" id="i28" autocomplete="off" spellcheck="false" aria-label="Question 28"> on with her speech.</p>
+  <p class="wc" id="w28">0 words</p>
+  <div class="exp" id="x28"><p><span class="tag">Answer</span><b>being very upset, Sarah went / being very upset, she went / being so upset, Sarah went / being so upset, she went / her being very upset, she went</b></p><p>After <u>despite</u> we use a noun or verb + -ing ('being upset'). <u>Go on with</u> something means 'continue with' it.</p></div>
+</div><div class="kwt" data-n="29">
+  <p class="s1"><span class="mc-n">29</span>I'm sure he didn't know about the meeting.</p>
+  <p class="key">AWARE</p>
+  <p class="s2">He <input type="text" id="i29" autocomplete="off" spellcheck="false" aria-label="Question 29"> the meeting.</p>
+  <p class="wc" id="w29">0 words</p>
+  <div class="exp" id="x29"><p><span class="tag">Answer</span><b>can't have been aware of / cannot have been aware of / couldn't have been aware of / could not have been aware of</b></p><p><u>Can't have + past participle</u> means 'I'm sure it was not true' in the past. 'Know about' = <u>be aware of</u>.</p></div>
+</div><div class="kwt" data-n="30">
+  <p class="s1"><span class="mc-n">30</span>The concert was cancelled because very few tickets had been sold.</p>
+  <p class="key">DUE</p>
+  <p class="s2">The concert was cancelled <input type="text" id="i30" autocomplete="off" spellcheck="false" aria-label="Question 30"> of tickets sold.</p>
+  <p class="wc" id="w30">0 words</p>
+  <div class="exp" id="x30"><p><span class="tag">Answer</span><b>due to the low number / due to the small number / due to the poor number</b></p><p><u>Due to</u> + noun means 'because of'. 'Very few tickets' becomes <u>the low/small number of tickets</u>.</p></div>
+</div></div>
+  
+  <div class="part-actions"><button class="btn" onclick="checkPart(4)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check Part 4</button><span class="pscore" id="ps4"></span></div>
+</section>
+
+  <div class="score-row">
+    <button class="btn big" onclick="checkAll()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check the whole test</button>
+    <span class="total" id="total"></span>
+    <button class="btn ghost big" onclick="location.reload()">Start again</button>
+  </div>
+  <p style="text-align:center;font-size:0.8rem;color:var(--ink-soft);margin:0 0 10px">Parts 1–3: 1 mark per question. Part 4: up to 2 marks per question. This scoring system is similar to Cambridge's.</p>
+</main>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeZoom()">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div class="size-ctrl"><span>Text size</span><button onclick="mz(-0.1)">A−</button><button onclick="mz(0.1)">A+</button></div>
+      <button class="close" onclick="closeZoom()">Close</button>
+    </div>
+    <div class="modal-content" id="modal-content"></div>
+  </div>
+</div>
+
+<footer>C1 Advanced Prep — Use of English · Test 1<span class="credit">Site by Alina Iuga</span></footer>
+
+<script>
+  const ANS = {"1":{"t":"mc","a":"B"},"2":{"t":"mc","a":"C"},"3":{"t":"mc","a":"D"},"4":{"t":"mc","a":"A"},"5":{"t":"mc","a":"C"},"6":{"t":"mc","a":"B"},"7":{"t":"mc","a":"D"},"8":{"t":"mc","a":"B"},"9":{"t":"w","a":["no"]},"10":{"t":"w","a":["more"]},"11":{"t":"w","a":["which"]},"12":{"t":"w","a":["instead"]},"13":{"t":"w","a":["if","though"]},"14":{"t":"w","a":["likely"]},"15":{"t":"w","a":["such"]},"16":{"t":"w","a":["it"]},"17":{"t":"w","a":["accessible"]},"18":{"t":"w","a":["appearance"]},"19":{"t":"w","a":["reliability"]},"20":{"t":"w","a":["incomplete"]},"21":{"t":"w","a":["surprisingly"]},"22":{"t":"w","a":["awareness"]},"23":{"t":"w","a":["rewarding"]},"24":{"t":"w","a":["motivated"]},"25":{"t":"k","a":["only when I started","only after I started","only once I started"],"key":"ONLY"},"26":{"t":"k","a":["is said to have been built"],"key":"SAID"},"27":{"t":"k","a":["should not have borrowed","shouldn't have borrowed"],"key":"SHOULD"},"28":{"t":"k","a":["being very upset, Sarah went","being very upset, she went","being so upset, Sarah went","being so upset, she went","her being very upset, she went"],"key":"WENT"},"29":{"t":"k","a":["can't have been aware of","cannot have been aware of","couldn't have been aware of","could not have been aware of"],"key":"AWARE"},"30":{"t":"k","a":["due to the low number","due to the small number","due to the poor number"],"key":"DUE"}};
+  const PARTS = {1:[1,8],2:[9,16],3:[17,24],4:[25,30]};
+  let size = 1, msize = 1;
+  function fs(d){ size=Math.min(1.6,Math.max(0.8,size+d)); document.documentElement.style.setProperty('--fs',size); }
+  function mz(d){ msize=Math.min(2,Math.max(0.7,msize+d)); document.body.style.setProperty('--mz',msize); }
+  const norm = s => s.toLowerCase().replace(/[’‘]/g,"'").replace(/[.,!?]/g,'').replace(/\s+/g,' ').trim();
+  const words = s => { const t = norm(s); if (!t) return 0; return t.split(' ').reduce((n,w)=>n+(/n't$/.test(w)||w==="can't"?2:1),0); };
+  // live chip update + word counter
+  document.querySelectorAll('.mc input').forEach(r => r.addEventListener('change', () => {
+    const c = document.querySelector('#c' + r.name.slice(1) + ' .fill'); c.textContent = r.dataset.word;
+  }));
+  document.querySelectorAll('.kwt input').forEach(inp => inp.addEventListener('input', () => {
+    const n = inp.id.slice(1), w = words(inp.value), el = document.getElementById('w' + n);
+    el.textContent = w + (w === 1 ? ' word' : ' words') + (w > 6 ? ' — too many! (max. 6)' : '');
+    el.classList.toggle('bad', w > 6);
+  }));
+  function mark(n){
+    const a = ANS[n]; let pts = 0, max = a.t === 'k' ? 2 : 1;
+    if (a.t === 'mc') {
+      const box = document.querySelector('.mc[data-n="'+n+'"]'), sel = box.querySelector('input:checked');
+      box.querySelectorAll('label').forEach(l => l.classList.remove('correct','wrong'));
+      box.querySelector('input[value="'+a.a+'"]').parentElement.classList.add('correct');
+      const chip = document.getElementById('c'+n); chip.classList.remove('correct','wrong');
+      if (sel && sel.value === a.a) { pts = 1; chip.classList.add('correct'); }
+      else { if (sel) sel.parentElement.classList.add('wrong'); chip.classList.add('wrong'); }
+    } else {
+      const inp = document.getElementById('i'+n), v = norm(inp.value);
+      const ok = a.a.some(x => norm(x) === v) && (a.t !== 'k' || words(inp.value) <= 6);
+      if (a.t === 'k') { pts = ok ? 2 : 0; } else { pts = ok ? 1 : 0; }
+      inp.classList.remove('correct','wrong'); inp.classList.add(ok ? 'correct' : 'wrong');
+    }
+    document.getElementById('x'+n).classList.add('show');
+    return [pts, max];
+  }
+  function checkPart(p){
+    let s = 0, m = 0; const [a,b] = PARTS[p];
+    for (let n = a; n <= b; n++) { const [x,y] = mark(n); s += x; m += y; }
+    document.getElementById('ps'+p).textContent = s + ' / ' + m + ' marks';
+    return [s, m];
+  }
+  function checkAll(){
+    let s = 0, m = 0; [1,2,3,4].forEach(p => { const [x,y] = checkPart(p); s += x; m += y; });
+    document.getElementById('total').textContent = 'Total: ' + s + ' / ' + m + ' marks';
+  }
+  function zoom(id){
+    const src = document.getElementById(id), clone = src.cloneNode(true);
+    clone.querySelectorAll('input').forEach(i => i.disabled = true);
+    clone.querySelectorAll('[id]').forEach(e => e.removeAttribute('id'));
+    const orig = src.querySelectorAll('input'); clone.querySelectorAll('input').forEach((i,k) => { i.value = orig[k].value; if (orig[k].checked) i.checked = true; i.name = 'z' + i.name; });
+    const mc = document.getElementById('modal-content'); mc.innerHTML = ''; mc.appendChild(clone);
+    document.getElementById('modal').classList.add('show');
+  }
+  function closeZoom(){ document.getElementById('modal').classList.remove('show'); }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeZoom(); });
+</script>
+</body>
+</html>

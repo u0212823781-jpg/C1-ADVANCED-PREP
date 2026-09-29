@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C1 Advanced Prep — Reading · Part 5 · Unit 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #B9CEE0; --blue-sky: #AFCBE0; --blue-bg: #E8F1F7; --blue-bg-strong: #DCE9F1; --blue-dark: #4E6F8A;
+    --peach: #EAB9A8; --peach-bg: #F8E8E1; --peach-dark: #B8735D;
+    --bg: #FCFAF7; --card: #FFFFFF; --panel: #FFFFFF; --ink: #34404A; --ink-soft: #5F6B75; --line: #E7E2DB;
+    --ok: #4E7A63; --ok-bg: #E7F0EA; --no: #A2574A; --no-bg: #F8E8E1;
+    --display: 'Fraunces', Georgia, serif; --body: 'Inter', system-ui, sans-serif; --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --maxw: 1120px; --fs: 1;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; overflow-x: hidden; background: var(--bg); color: var(--ink); font-family: var(--body); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+
+  /* ===== Nav ===== */
+  header.nav { position: sticky; top: 0; z-index: 50; background: rgba(252,250,247,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .brand-group { display: flex; align-items: baseline; gap: 14px; }
+  .brand { font-family: var(--display); font-weight: 600; font-size: 1.12rem; display: flex; align-items: center; gap: 9px; }
+  .brand-mark { width: 12px; height: 12px; border-radius: 3px; background: var(--peach); box-shadow: 5px 5px 0 var(--blue); }
+  .brand-crumb { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-soft); letter-spacing: 0.5px; }
+  .brand-crumb:hover { color: var(--blue-dark); }
+  nav.links { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  nav.links > a, .nav-trigger { font-size: 0.8rem; font-weight: 600; padding: 7px 10px; border-radius: 8px; color: var(--ink-soft); display: inline-block; }
+  nav.links > a:hover, .nav-trigger:hover { background: var(--blue-bg); color: var(--ink); }
+  .nav-trigger.active { color: var(--ink); background: var(--blue-bg); }
+  .caret { font-size: 0.7rem; opacity: 0.6; }
+  .nav-item { position: relative; }
+  .nav-dropdown { position: absolute; top: calc(100% + 6px); right: 0; min-width: 250px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 6px; box-shadow: 0 14px 30px -18px rgba(52,64,74,0.35); opacity: 0; visibility: hidden; transform: translateY(-4px); transition: .15s ease; }
+  .nav-item:hover .nav-dropdown, .nav-item:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-dropdown a { display: block; padding: 8px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; color: var(--ink-soft); }
+  .nav-dropdown a:hover, .nav-dropdown a.active { background: var(--blue-bg); color: var(--ink); }
+  .nav-dropdown .soon { display: block; padding: 8px 10px; font-size: 0.78rem; color: var(--ink-soft); opacity: 0.55; }
+
+  /* ===== Hero ===== */
+  .hero { position: relative; overflow: hidden; padding: 20px 32px 22px; background: var(--blue-bg); }
+  .hero-inner { max-width: var(--maxw); margin: 0 auto; position: relative; z-index: 1; }
+  .subnav { display: flex; justify-content: flex-end; gap: 4px; font-size: 0.76rem; font-weight: 600; color: var(--blue-dark); margin-bottom: 6px; flex-wrap: wrap; }
+  .subnav a { padding: 3px 6px; border-radius: 6px; }
+  .subnav a.active, .subnav a:hover { background: rgba(255,255,255,0.6); }
+  .subnav .sep { color: var(--ink-soft); opacity: 0.5; }
+  .hero-text { text-align: center; }
+  .kicker { font-family: var(--mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--blue-dark); display: inline-flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+  .kicker::before, .kicker::after { content: ""; width: 22px; height: 1px; background: currentColor; opacity: .5; }
+  .hero-text h1 { font-family: var(--display); font-size: clamp(1.9rem, 3.6vw, 2.6rem); margin: 0 0 6px; font-weight: 600; letter-spacing: -0.5px; line-height: 1.08; }
+  .hero-text p { margin: 0 auto; font-size: 1rem; color: var(--ink-soft); max-width: 520px; }
+  .hero-rule { width: 50px; height: 3px; background: var(--peach-dark); margin: 14px auto 0; border-radius: 2px; }
+  .hero-bleed { position: absolute; top: 50%; right: 18px; transform: translateY(-50%); width: 180px; height: 180px; opacity: 0.85; pointer-events: none; }
+
+  /* ===== Layout ===== */
+  main { max-width: var(--maxw); margin: 0 auto; padding: 20px 32px 10px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; margin-bottom: 14px; }
+  .p-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+  .p-num { font-family: var(--mono); font-weight: 700; color: var(--blue-dark); font-size: 0.92rem; }
+  .p-head h2 { margin: 0; font-size: 1.05rem; font-weight: 700; font-family: var(--body); }
+  .p-sub { font-size: 0.86rem; color: var(--ink-soft); margin: 0 0 12px 30px; }
+
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+  .fact { background: var(--blue-bg); border-radius: 10px; padding: 10px 12px; }
+  .fact b { display: block; font-family: var(--display); font-size: 1.3rem; font-weight: 600; color: var(--blue-dark); line-height: 1.1; }
+  .fact span { font-size: 0.76rem; color: var(--ink-soft); }
+  .tips { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .tip { display: flex; gap: 10px; align-items: flex-start; background: var(--peach-bg); border-radius: 10px; padding: 10px 12px; }
+  .tip-n { font-family: var(--mono); font-size: 0.74rem; font-weight: 700; color: var(--peach-dark); padding-top: 2px; }
+  .tip h5 { margin: 0 0 2px; font-size: 0.84rem; }
+  .tip p { margin: 0; font-size: 0.8rem; color: var(--ink-soft); line-height: 1.4; }
+
+  /* ===== Task toolbar ===== */
+  .task-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 6px 0 12px; }
+  .task-bar .instr { font-size: 0.9rem; color: var(--ink-soft); margin: 0; max-width: 720px; }
+  .size-ctrl { display: flex; align-items: center; gap: 4px; font-family: var(--mono); font-size: 0.7rem; color: var(--ink-soft); }
+  .size-ctrl button { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 8px; padding: 5px 9px; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
+  .size-ctrl button:hover { border-color: var(--blue-dark); }
+  .text-title { font-family: var(--display); font-weight: 600; font-size: 1.5rem; text-align: center; margin: 4px 0 14px; }
+
+  /* ===== Paragraph + question pairs ===== */
+  .pair { display: grid; grid-template-columns: 1.25fr 1fr; gap: 14px; margin-bottom: 14px; align-items: start; }
+  .para-card { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px 16px 50px; }
+  .para-num { position: absolute; left: 16px; top: 17px; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--blue-dark); }
+  .para-card p { margin: 0; font-size: calc(1rem * var(--fs)); line-height: 1.7; }
+  .ev { transition: background .2s ease; border-radius: 3px; }
+  .ev.on { background: var(--peach-bg); text-decoration: underline; text-decoration-color: var(--peach-dark); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+  .q-card { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--blue); border-radius: 14px; padding: 14px 16px; }
+  .q-stem { margin: 0 0 10px; font-weight: 700; font-size: calc(0.95rem * var(--fs)); display: flex; gap: 10px; }
+  .q-num { flex: none; width: 26px; height: 26px; border-radius: 8px; background: var(--blue-bg); color: var(--blue-dark); font-family: var(--mono); font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
+  .opts { display: flex; flex-direction: column; gap: 6px; }
+  .opt { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; font-size: calc(0.9rem * var(--fs)); transition: .15s ease; }
+  .opt:hover { border-color: var(--blue); background: #F7FAFC; }
+  .opt input { display: none; }
+  .opt .L { flex: none; font-family: var(--mono); font-weight: 700; font-size: 0.8rem; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--blue); color: var(--blue-dark); display: flex; align-items: center; justify-content: center; }
+  .opt:has(input:checked) { border-color: var(--blue-dark); background: var(--blue-bg); }
+  .opt:has(input:checked) .L { background: var(--blue-dark); color: #fff; border-color: var(--blue-dark); }
+  .opt.correct { border-color: var(--ok); background: var(--ok-bg); }
+  .opt.correct .L { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .opt.wrong { border-color: var(--no); background: var(--no-bg); }
+  .opt.wrong .L { background: var(--no); border-color: var(--no); color: #fff; }
+
+  .q-actions, .v-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--blue-dark); background: var(--blue-dark); color: #fff; font-weight: 600; font-size: 0.78rem; padding: 7px 12px; border-radius: 8px; cursor: pointer; }
+  .btn.ghost { background: var(--card); color: var(--blue-dark); border-color: var(--blue); }
+  .btn.ghost:hover:not(:disabled) { background: var(--blue-bg); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn.small { padding: 5px 10px; font-size: 0.74rem; }
+  .btn.big { padding: 10px 18px; font-size: 0.86rem; }
+  .result { font-size: 0.8rem; font-weight: 700; }
+  .result.ok { color: var(--ok); } .result.no { color: var(--no); }
+  .hint-text { display: none; margin: 10px 0 0; font-size: calc(0.84rem * var(--fs)); background: var(--peach-bg); border-radius: 8px; padding: 8px 10px; color: var(--ink); }
+  .hint-text.show { display: block; }
+  .exp { display: none; margin-top: 12px; border-top: 1px dashed var(--line); padding-top: 10px; font-size: calc(0.86rem * var(--fs)); }
+  .exp.show { display: block; }
+  .exp-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: 600; }
+  .exp p { margin: 0 0 8px; line-height: 1.5; }
+  .tag { display: inline-block; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: var(--blue-bg); color: var(--blue-dark); padding: 2px 7px; border-radius: 5px; margin-right: 8px; }
+  .tag.peach { background: var(--peach-bg); color: var(--peach-dark); }
+  .evidence { text-decoration: underline; text-decoration-color: var(--peach); text-underline-offset: 3px; }
+  .tag-line { font-weight: 700; font-size: 0.8rem; margin: 4px 0 4px !important; }
+  .wrong { margin: 0; padding-left: 18px; color: var(--ink-soft); }
+  .wrong li { margin-bottom: 4px; }
+  .zoom-btn { border: 1px solid var(--line); background: var(--card); color: var(--blue-dark); border-radius: 7px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .zoom-btn:hover { border-color: var(--blue-dark); }
+
+  .score-row { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; background: var(--blue-bg-strong); border-radius: 14px; padding: 14px 18px; margin: 4px 0 14px; }
+  .score-row .score { font-family: var(--display); font-weight: 600; font-size: 1.15rem; }
+
+  /* ===== Vocabulary ===== */
+  .boxes { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .wbox { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px; border: 1px solid var(--blue); border-radius: 10px; padding: 10px; background: var(--blue-bg); }
+  .wbox span { font-size: 0.86rem; font-weight: 600; background: var(--card); border: 1px solid var(--line); border-radius: 7px; padding: 4px 10px; }
+  .v-item { border-bottom: 1px solid var(--line); padding: 10px 0; }
+  .v-item:last-child { border-bottom: 0; }
+  .v-item p { margin: 0; font-size: calc(0.95rem * var(--fs)); line-height: 1.9; }
+  .v-num { font-family: var(--mono); font-weight: 700; color: var(--blue-dark); margin-right: 8px; font-size: 0.8rem; }
+  .v-item input { font-family: inherit; font-size: inherit; border: 0; border-bottom: 1.5px dashed var(--blue-dark); background: transparent; min-width: 200px; margin: 0 4px; padding: 0 4px; color: var(--ink); outline: none; }
+  .v-item input.correct { border-bottom: 2px solid var(--ok); background: var(--ok-bg); }
+  .v-item input.wrong { border-bottom: 2px solid var(--no); background: var(--no-bg); }
+  .v-actions { margin-top: 4px; }
+  .v-exp { display: none !important; font-size: calc(0.84rem * var(--fs)) !important; background: var(--blue-bg); border-radius: 8px; padding: 7px 10px; margin-top: 6px !important; line-height: 1.5 !important; }
+  .v-exp.show { display: block !important; }
+  .v-exp u { text-decoration-color: var(--peach-dark); text-underline-offset: 3px; }
+
+  .gir { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .gir .box { border-radius: 10px; padding: 12px 14px; font-size: calc(0.92rem * var(--fs)); }
+  .gir .bad { background: var(--no-bg); }
+  .gir .good { background: var(--ok-bg); display: none; }
+  .gir .good.show { display: block; }
+  .gir .lbl { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .gir .bad .lbl { color: var(--no); } .gir .good .lbl { color: var(--ok); }
+  .gir-why { display: none; margin: 10px 0 0; font-size: calc(0.86rem * var(--fs)); color: var(--ink-soft); }
+  .gir-why.show { display: block; }
+
+  /* ===== Zoom modal ===== */
+  .modal { position: fixed; inset: 0; background: rgba(52,64,74,0.45); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+  .modal.show { display: flex; }
+  .modal-box { background: var(--card); border-radius: 16px; width: min(900px, 100%); max-height: 88vh; overflow: auto; padding: 22px 26px; position: relative; }
+  .modal-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; position: sticky; top: -22px; background: var(--card); padding: 6px 0; }
+  .modal-content { font-size: calc(1.3rem * var(--mz)); line-height: 1.6; }
+  .modal-content .exp { display: block; border: 0; padding: 0; margin: 0; font-size: inherit; }
+  .modal-content .zoom-btn { display: none; }
+  .close { border: 1px solid var(--line); background: var(--card); border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer; }
+
+  footer { padding: 22px 32px 34px; text-align: center; color: var(--ink-soft); font-size: 0.78rem; font-family: var(--mono); }
+  footer .credit { display: block; margin-top: 8px; opacity: 0.6; font-size: 0.72rem; letter-spacing: 0.3px; }
+
+  @media (max-width: 900px) {
+    .pair { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: repeat(2, 1fr); }
+    .tips, .gir { grid-template-columns: 1fr; }
+    .hero-bleed { display: none; }
+    .nav-inner { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+  @media (max-width: 560px) {
+    .nav-inner, .hero, main, footer { padding-left: 16px; padding-right: 16px; }
+    .para-card { padding: 14px 14px 14px 40px; } .para-num { left: 12px; }
+    .v-item input { min-width: 150px; }
+    .nav-dropdown { left: 0; right: auto; min-width: 0; width: min(86vw, 250px); }
+  }
+</style>
+</head>
+<body style="--mz:1">
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand-group">
+      <div class="brand"><span class="brand-mark"></span>C1 Advanced Prep</div>
+      <a class="brand-crumb" href="CAE_Exam_Essentials.html">Exam Essentials</a>
+    </div>
+    <nav class="links">
+      <div class="nav-item">
+        <a href="#" class="nav-trigger">Use of English <span class="caret">▾</span></a>
+        <div class="nav-dropdown">
+          <span class="soon">Overview — coming soon</span>
+          <a href="CAE Use of English_test1.html">Practice Test 1 (Parts 1–4)</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#" class="nav-trigger active">Reading <span class="caret">▾</span></a>
+        <div class="nav-dropdown">
+          <span class="soon">Overview — coming soon</span>
+          <a href="CAE Reading_part5_unit1.html" class="active">Part 5 — Unit 1: Mind &amp; technology</a>
+        </div>
+      </div>
+      <a href="#">Writing</a>
+      <a href="#">Listening</a>
+      <div class="nav-item">
+        <a href="CAE Speaking_general.html" class="nav-trigger">Speaking <span class="caret">▾</span></a>
+        <div class="nav-dropdown">
+          <a href="CAE Speaking_general.html">Overview</a>
+          <a href="CAE Speaking_part1.html">Part 1 — Interview</a>
+          <a href="CAE Speaking_part2.html">Part 2 — Long Turn</a>
+          <a href="CAE Speaking_part3.html">Part 3 — Collaborative Task</a>
+          <a href="CAE Speaking_part4.html">Part 4 — Discussion</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <svg class="hero-bleed" viewBox="0 0 200 200" fill="none" stroke="#9DB7CC" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="40" y="30" width="110" height="140" rx="8"/>
+    <path d="M60 60h70M60 78h70M60 96h55M60 114h70M60 132h40"/>
+    <circle cx="140" cy="140" r="26" fill="#FCFAF7"/>
+    <path d="M159 159l18 18"/>
+    <path d="M128 140l8 8 14-16" stroke="#B8735D"/>
+  </svg>
+  <div class="hero-inner">
+    <div class="subnav">
+      <a href="#" class="active">Part 5 · Unit 1</a>
+    </div>
+    <div class="hero-text">
+      <span class="kicker">Reading · Part 5 · Unit 1</span>
+      <h1>Multiple Choice</h1>
+      <p>Read one long text in detail and answer six questions about meaning, opinion, attitude and purpose.</p>
+      <div class="hero-rule"></div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <section class="panel">
+    <div class="p-head"><span class="p-num">01</span><h2>How Part 5 works</h2></div>
+    <div class="facts">
+      <div class="fact"><b>1</b><span>long text (about 650–800 words)</span></div>
+      <div class="fact"><b>6</b><span>questions, options A, B, C or D</span></div>
+      <div class="fact"><b>2</b><span>marks for each correct answer</span></div>
+      <div class="fact"><b>In order</b><span>the questions follow the text</span></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="p-head"><span class="p-num">02</span><h2>Exam tips</h2></div>
+    <p class="p-sub">Keep these in mind while you work.</p>
+    <div class="tips"><div class="tip"><span class="tip-n">01</span><div><h5>Before you read</h5><p>Read the title and the introduction. They tell you the topic and the type of text.</p></div></div><div class="tip"><span class="tip-n">02</span><div><h5>Order</h5><p>The questions follow the order of the text. Question 1 is about the beginning, Question 6 is about the end.</p></div></div><div class="tip"><span class="tip-n">03</span><div><h5>Same words, wrong answer</h5><p>An option that repeats words from the text is often a trap. Look for the same meaning in different words.</p></div></div><div class="tip"><span class="tip-n">04</span><div><h5>Check all four</h5><p>Find the evidence for the right answer, and a reason why each of the other options is wrong.</p></div></div></div>
+  </section>
+
+  <section id="task">
+    <div class="p-head" style="margin-top:22px"><span class="p-num">03</span><h2>Exam task — Unit 1: Mind and technology</h2></div>
+    <div class="task-bar">
+      <p class="instr">You are going to read an article in which a journalist writes about boredom and technology. For questions 1–6, choose the answer (A, B, C or D) which you think fits best according to the text.</p>
+      <div class="size-ctrl"><span>Text size</span><button onclick="fs(-0.1)" aria-label="Smaller text">A−</button><button onclick="fs(0.1)" aria-label="Larger text">A+</button><button onclick="zoomText()" aria-label="Enlarge text" title="Enlarge the whole text"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
+    </div>
+    <h3 class="text-title">In defence of boredom</h3>
+    <div id="passage">
+  <div class="pair">
+    <div class="para-card"><span class="para-num">01</span><p>For most of my twenties, I regarded boredom as a kind of personal failure. An empty afternoon was something to be filled, preferably with something that could later be described as productive. <span class="ev" data-ev="1">Waiting rooms, train journeys and queues were simply gaps between more worthwhile activities, and my phone was the tool I used to seal them shut.</span> It was only when a stubborn wrist injury forced me to give up my phone for a month – typing had become painful, and my doctor was unsympathetic – that I began to suspect I had got things the wrong way round.</p></div>
+    <div class="q-card" data-q="1" data-ans="B">
+      <p class="q-stem"><span class="q-num">1</span>What does the writer suggest about her attitude to boredom in her twenties?</p>
+      <div class="opts"><label class="opt"><input type="radio" name="q1" value="A"><span class="L">A</span><span class="ot">She knew it was unhealthy but felt unable to change it.</span></label><label class="opt"><input type="radio" name="q1" value="B"><span class="L">B</span><span class="ot">She saw unoccupied time as something to be got rid of.</span></label><label class="opt"><input type="radio" name="q1" value="C"><span class="L">C</span><span class="ot">She felt guilty about the time she spent on her phone.</span></label><label class="opt"><input type="radio" name="q1" value="D"><span class="L">D</span><span class="ot">She believed other people judged her for being unproductive.</span></label></div>
+      <div class="q-actions">
+        <button class="btn ghost" onclick="hint(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg> Hint</button>
+        <button class="btn" onclick="check(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check</button>
+        <button class="btn ghost exp-btn" onclick="toggleExp(1)" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg> Explanation</button>
+        <span class="result" id="r1"></span>
+      </div>
+      <p class="hint-text" id="h1">Look at how she describes waiting rooms and queues, and what her phone did to them.</p>
+      <div class="exp" id="e1">
+        <div class="exp-head"><span>Answer <b>B</b></span><button class="zoom-btn" onclick="zoom('e1')" aria-label="Enlarge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
+        <p class="evidence"><span class="tag">Evidence</span>“Waiting rooms, train journeys and queues were simply gaps between more worthwhile activities, and my phone was the tool I used to seal them shut.”</p>
+        <p><span class="tag peach">Why</span>To 'seal something shut' means to close it completely. She used her phone to close every empty moment, so for her, free time was something to get rid of.</p>
+        <p class="tag-line">Why not the others?</p>
+        <ul class="wrong"><li><b>A</b> She only started to question her attitude later, after the injury ('It was only when... I began to suspect'). In her twenties she did not think it was unhealthy.</li><li><b>C</b> She felt that boredom was a 'personal failure', but she never says she felt guilty about her phone.</li><li><b>D</b> Other people's opinions are not mentioned at all.</li></ul>
+      </div>
+    </div>
+  </div>
+  <div class="pair">
+    <div class="para-card"><span class="para-num">02</span><p><span class="ev" data-ev="2">The first week was, frankly, miserable.</span> I found myself reaching for a device that wasn't there, and the restlessness that followed was almost physical. <span class="ev" data-ev="2">Yet somewhere in the second week, something shifted.</span> On a delayed train, with nothing to read and no one to message, my mind began to wander in a way it hadn't for years. I thought about a conversation I'd had with my sister, about a half-finished project at work, and, rather absurdly, about why pigeons nod their heads when they walk. None of it was urgent. <span class="ev" data-ev="2">All of it felt oddly refreshing.</span></p></div>
+    <div class="q-card" data-q="2" data-ans="A">
+      <p class="q-stem"><span class="q-num">2</span>The writer describes her experience on the train in the second paragraph in order to</p>
+      <div class="opts"><label class="opt"><input type="radio" name="q2" value="A"><span class="L">A</span><span class="ot">illustrate how her discomfort gradually gave way to something more positive.</span></label><label class="opt"><input type="radio" name="q2" value="B"><span class="L">B</span><span class="ot">show how difficult it was to concentrate without her phone.</span></label><label class="opt"><input type="radio" name="q2" value="C"><span class="L">C</span><span class="ot">suggest that most of her thoughts were trivial and unproductive.</span></label><label class="opt"><input type="radio" name="q2" value="D"><span class="L">D</span><span class="ot">explain why she decided to continue the experiment for longer.</span></label></div>
+      <div class="q-actions">
+        <button class="btn ghost" onclick="hint(2)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg> Hint</button>
+        <button class="btn" onclick="check(2)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check</button>
+        <button class="btn ghost exp-btn" onclick="toggleExp(2)" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg> Explanation</button>
+        <span class="result" id="r2"></span>
+      </div>
+      <p class="hint-text" id="h2">Compare the first sentence of the paragraph with the last one. What word marks the change?</p>
+      <div class="exp" id="e2">
+        <div class="exp-head"><span>Answer <b>A</b></span><button class="zoom-btn" onclick="zoom('e2')" aria-label="Enlarge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
+        <p class="evidence"><span class="tag">Evidence</span>“The first week was, frankly, miserable. ... Yet somewhere in the second week, something shifted. ... All of it felt oddly refreshing.”</p>
+        <p><span class="tag peach">Why</span>The paragraph moves from 'miserable' to 'refreshing'. The word 'Yet' marks the change. The train story is the example of that change.</p>
+        <p class="tag-line">Why not the others?</p>
+        <ul class="wrong"><li><b>B</b> Her mind wanders freely on the train. The paragraph is not about a problem with concentrating.</li><li><b>C</b> She says her thoughts were not urgent, but she describes them as 'refreshing', which is positive.</li><li><b>D</b> She never says she decided to make the experiment longer.</li></ul>
+      </div>
+    </div>
+  </div>
+  <div class="pair">
+    <div class="para-card"><span class="para-num">03</span><p>Psychologists have a name for what was happening: the 'default mode network', a set of brain regions that becomes active precisely when we are not focused on an external task. Far from being idle, this network appears to be involved in some of our most valuable mental work – making sense of past experiences, imagining the future, and forming connections between apparently unrelated ideas. Studies in which participants were given a deliberately tedious task, such as copying numbers from a phone directory, before being asked to come up with creative uses for everyday objects, have found that the bored group tended to produce more original answers. <span class="ev" data-ev="3">The findings are modest, and researchers are careful not to overstate them, but the direction is consistent.</span></p></div>
+    <div class="q-card" data-q="3" data-ans="C">
+      <p class="q-stem"><span class="q-num">3</span>What does the writer say about the research into boredom?</p>
+      <div class="opts"><label class="opt"><input type="radio" name="q3" value="A"><span class="L">A</span><span class="ot">It proves that being bored leads directly to creativity.</span></label><label class="opt"><input type="radio" name="q3" value="B"><span class="L">B</span><span class="ot">It has been criticised for using unrealistic tasks.</span></label><label class="opt"><input type="radio" name="q3" value="C"><span class="L">C</span><span class="ot">Its results are limited but point in the same direction.</span></label><label class="opt"><input type="radio" name="q3" value="D"><span class="L">D</span><span class="ot">It focuses too narrowly on one area of the brain.</span></label></div>
+      <div class="q-actions">
+        <button class="btn ghost" onclick="hint(3)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg> Hint</button>
+        <button class="btn" onclick="check(3)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check</button>
+        <button class="btn ghost exp-btn" onclick="toggleExp(3)" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg> Explanation</button>
+        <span class="result" id="r3"></span>
+      </div>
+      <p class="hint-text" id="h3">Find the sentence that gives the writer's opinion of the 'findings'.</p>
+      <div class="exp" id="e3">
+        <div class="exp-head"><span>Answer <b>C</b></span><button class="zoom-btn" onclick="zoom('e3')" aria-label="Enlarge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
+        <p class="evidence"><span class="tag">Evidence</span>“The findings are modest, and researchers are careful not to overstate them, but the direction is consistent.”</p>
+        <p><span class="tag peach">Why</span>'Modest' means small or limited. 'The direction is consistent' means the studies all show the same thing. Option C says the same idea in different words.</p>
+        <p class="tag-line">Why not the others?</p>
+        <ul class="wrong"><li><b>A</b> 'Researchers are careful not to overstate them' – so the research does not 'prove' anything strongly.</li><li><b>B</b> The boring task (copying numbers) is described, but nobody criticises it.</li><li><b>D</b> The 'default mode network' is explained, not criticised.</li></ul>
+      </div>
+    </div>
+  </div>
+  <div class="pair">
+    <div class="para-card"><span class="para-num">04</span><p>This is not an argument that sits comfortably with the business model of the technology we carry around. Apps are designed, with considerable skill, to ensure that no moment goes unfilled. Every notification, every endlessly scrolling feed, is a small promise that something more interesting is just a tap away. <span class="ev" data-ev="4">The irony is that by removing boredom so efficiently, these tools may also be removing the conditions in which our own ideas take shape.</span> We have, in effect, outsourced our daydreaming.</p></div>
+    <div class="q-card" data-q="4" data-ans="B">
+      <p class="q-stem"><span class="q-num">4</span>What is the writer's main point in the fourth paragraph?</p>
+      <div class="opts"><label class="opt"><input type="radio" name="q4" value="A"><span class="L">A</span><span class="ot">Technology companies deliberately hide the negative effects of their products.</span></label><label class="opt"><input type="radio" name="q4" value="B"><span class="L">B</span><span class="ot">The constant stimulation offered by apps may stop people from developing their own ideas.</span></label><label class="opt"><input type="radio" name="q4" value="C"><span class="L">C</span><span class="ot">People should take more responsibility for how they use technology.</span></label><label class="opt"><input type="radio" name="q4" value="D"><span class="L">D</span><span class="ot">Notifications are the most harmful feature of modern apps.</span></label></div>
+      <div class="q-actions">
+        <button class="btn ghost" onclick="hint(4)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg> Hint</button>
+        <button class="btn" onclick="check(4)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check</button>
+        <button class="btn ghost exp-btn" onclick="toggleExp(4)" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg> Explanation</button>
+        <span class="result" id="r4"></span>
+      </div>
+      <p class="hint-text" id="h4">Look for the sentence that begins with 'The irony is that...'.</p>
+      <div class="exp" id="e4">
+        <div class="exp-head"><span>Answer <b>B</b></span><button class="zoom-btn" onclick="zoom('e4')" aria-label="Enlarge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
+        <p class="evidence"><span class="tag">Evidence</span>“The irony is that by removing boredom so efficiently, these tools may also be removing the conditions in which our own ideas take shape.”</p>
+        <p><span class="tag peach">Why</span>Apps fill every moment ('constant stimulation'), and this may take away the empty time we need for our own ideas to 'take shape' (develop).</p>
+        <p class="tag-line">Why not the others?</p>
+        <ul class="wrong"><li><b>A</b> She says apps are designed 'with considerable skill', but she never says companies hide anything.</li><li><b>C</b> She does not tell people what they should do in this paragraph.</li><li><b>D</b> Notifications are only one example, together with 'endlessly scrolling feeds'. She does not say they are the worst.</li></ul>
+      </div>
+    </div>
+  </div>
+  <div class="pair">
+    <div class="para-card"><span class="para-num">05</span><p><span class="ev" data-ev="5">I should be careful here, because there is a version of this argument that I find rather tiresome.</span> It usually comes from people who romanticise a pre-digital past in which everyone apparently sat in quiet contemplation, composing poetry. <span class="ev" data-ev="5">That world never existed.</span> People have always found ways to distract themselves, whether through gossip, newspapers or staring out of the window at nothing in particular. And for many people, a phone is not an escape from thought but a lifeline – to family abroad, to work, to information they genuinely need.</p></div>
+    <div class="q-card" data-q="5" data-ans="D">
+      <p class="q-stem"><span class="q-num">5</span>Why does the writer mention 'people who romanticise a pre-digital past'?</p>
+      <div class="opts"><label class="opt"><input type="radio" name="q5" value="A"><span class="L">A</span><span class="ot">to admit that she once shared their views</span></label><label class="opt"><input type="radio" name="q5" value="B"><span class="L">B</span><span class="ot">to suggest that earlier generations were more creative</span></label><label class="opt"><input type="radio" name="q5" value="C"><span class="L">C</span><span class="ot">to criticise people who refuse to use modern technology</span></label><label class="opt"><input type="radio" name="q5" value="D"><span class="L">D</span><span class="ot">to separate her own position from an exaggerated version of it</span></label></div>
+      <div class="q-actions">
+        <button class="btn ghost" onclick="hint(5)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg> Hint</button>
+        <button class="btn" onclick="check(5)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check</button>
+        <button class="btn ghost exp-btn" onclick="toggleExp(5)" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg> Explanation</button>
+        <span class="result" id="r5"></span>
+      </div>
+      <p class="hint-text" id="h5">How does the writer feel about 'a version of this argument'? Does she agree with it?</p>
+      <div class="exp" id="e5">
+        <div class="exp-head"><span>Answer <b>D</b></span><button class="zoom-btn" onclick="zoom('e5')" aria-label="Enlarge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
+        <p class="evidence"><span class="tag">Evidence</span>“I should be careful here, because there is a version of this argument that I find rather tiresome. ... That world never existed.”</p>
+        <p><span class="tag peach">Why</span>She says some people take her argument too far, and she finds that 'tiresome'. By saying 'That world never existed', she shows she does not agree with them. Her own idea is more moderate.</p>
+        <p class="tag-line">Why not the others?</p>
+        <ul class="wrong"><li><b>A</b> She never says she used to think like them.</li><li><b>B</b> She says the opposite: 'People have always found ways to distract themselves.'</li><li><b>C</b> Refusing technology is not mentioned. She even defends phones as 'a lifeline'.</li></ul>
+      </div>
+    </div>
+  </div>
+  <div class="pair">
+    <div class="para-card"><span class="para-num">06</span><p>What I am suggesting is something less dramatic. Since my wrist recovered, I have gone back to using my phone, but I have kept a few small habits. I leave it in my bag on short journeys. I no longer fill every queue with news I will forget within minutes. I have even, on occasion, sat on a park bench doing absolutely nothing, which, I am slightly embarrassed to admit, still feels like a minor act of rebellion. The pigeons, for the record, nod to keep their vision steady. <span class="ev" data-ev="6">I looked it up – but only after I'd spent a pleasant ten minutes wondering.</span></p></div>
+    <div class="q-card" data-q="6" data-ans="A">
+      <p class="q-stem"><span class="q-num">6</span>The writer's comment about the pigeons at the end of the text suggests that she</p>
+      <div class="opts"><label class="opt"><input type="radio" name="q6" value="A"><span class="L">A</span><span class="ot">now values time spent wondering as much as finding the answer.</span></label><label class="opt"><input type="radio" name="q6" value="B"><span class="L">B</span><span class="ot">has stopped using her phone to look up information.</span></label><label class="opt"><input type="radio" name="q6" value="C"><span class="L">C</span><span class="ot">finds that her curiosity about small things distracts her.</span></label><label class="opt"><input type="radio" name="q6" value="D"><span class="L">D</span><span class="ot">regrets not having looked up the answer sooner.</span></label></div>
+      <div class="q-actions">
+        <button class="btn ghost" onclick="hint(6)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg> Hint</button>
+        <button class="btn" onclick="check(6)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check</button>
+        <button class="btn ghost exp-btn" onclick="toggleExp(6)" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2zM22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg> Explanation</button>
+        <span class="result" id="r6"></span>
+      </div>
+      <p class="hint-text" id="h6">What adjective does she use to describe the ten minutes before she looked it up?</p>
+      <div class="exp" id="e6">
+        <div class="exp-head"><span>Answer <b>A</b></span><button class="zoom-btn" onclick="zoom('e6')" aria-label="Enlarge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button></div>
+        <p class="evidence"><span class="tag">Evidence</span>“I looked it up – but only after I'd spent a pleasant ten minutes wondering.”</p>
+        <p><span class="tag peach">Why</span>She calls the time spent wondering 'pleasant'. The words 'but only after' show that she chose to think first and search later. The thinking time is important to her.</p>
+        <p class="tag-line">Why not the others?</p>
+        <ul class="wrong"><li><b>B</b> She did use her phone: 'I looked it up'.</li><li><b>C</b> She enjoyed the time, so it was not a problem for her.</li><li><b>D</b> There is no regret. She chose to wait.</li></ul>
+      </div>
+    </div>
+  </div></div>
+    <div class="score-row">
+      <button class="btn big" onclick="checkAll()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check all my answers</button>
+      <span class="score" id="score"></span>
+      <button class="btn ghost big" onclick="resetAll()">Try again</button>
+    </div>
+  </section>
+
+  <section class="panel" id="ex2">
+    <div class="p-head"><span class="p-num">04</span><h2>Vocabulary from the text</h2></div>
+    <p class="p-sub">Complete the sentences with a phrase from the boxes. All the phrases appear in the text. You may need to change the form of the verbs.</p>
+    <div class="boxes">
+      <div class="wbox"><span>far from</span><span>for the record</span><span>get things the wrong way round</span><span>in effect</span></div>
+      <div class="wbox"><span>on occasion</span><span>overstate</span><span>sit comfortably with</span><span>take shape</span></div>
+    </div>
+    
+  <div class="v-item" data-ans="take shape">
+    <p><span class="v-num">1</span>After months of planning, the new sports centre is finally beginning to <input type="text" id="v0" autocomplete="off" spellcheck="false">.</p>
+    <div class="v-actions"><button class="btn small" onclick="checkV(0)">Check</button><span class="result" id="vr0"></span></div>
+    <p class="v-exp" id="ve0"><b>take shape</b> — When a plan or idea starts to become clear or real, it begins to <u>take shape</u>.</p>
+  </div>
+  <div class="v-item" data-ans="far from">
+    <p><span class="v-num">2</span>The new timetable is <input type="text" id="v1" autocomplete="off" spellcheck="false"> perfect, but it is certainly an improvement.</p>
+    <div class="v-actions"><button class="btn small" onclick="checkV(1)">Check</button><span class="result" id="vr1"></span></div>
+    <p class="v-exp" id="ve1"><b>far from</b> — <u>Far from</u> + adjective means 'not at all'. It is far from perfect = it is not perfect at all.</p>
+  </div>
+  <div class="v-item" data-ans="on occasion">
+    <p><span class="v-num">3</span>My brother is usually very patient, but <input type="text" id="v2" autocomplete="off" spellcheck="false"> he loses his temper completely.</p>
+    <div class="v-actions"><button class="btn small" onclick="checkV(2)">Check</button><span class="result" id="vr2"></span></div>
+    <p class="v-exp" id="ve2"><b>on occasion</b> — <u>On occasion</u> means 'sometimes, but not often'.</p>
+  </div>
+  <div class="v-item" data-ans="sit comfortably with">
+    <p><span class="v-num">4</span>Cutting the library budget does not <input type="text" id="v3" autocomplete="off" spellcheck="false"> the school's aim of encouraging reading.</p>
+    <div class="v-actions"><button class="btn small" onclick="checkV(3)">Check</button><span class="result" id="vr3"></span></div>
+    <p class="v-exp" id="ve3"><b>sit comfortably with</b> — If one idea does not <u>sit comfortably with</u> another, the two ideas do not match well together.</p>
+  </div>
+  <div class="v-item" data-ans="for the record">
+    <p><span class="v-num">5</span><input type="text" id="v4" autocomplete="off" spellcheck="false">, I never promised to lend him my car.</p>
+    <div class="v-actions"><button class="btn small" onclick="checkV(4)">Check</button><span class="result" id="vr4"></span></div>
+    <p class="v-exp" id="ve4"><b>For the record</b> — We say <u>for the record</u> when we want to make a fact clear, often to correct someone.</p>
+  </div>
+  <div class="v-item" data-ans="overstate">
+    <p><span class="v-num">6</span>It would be hard to <input type="text" id="v5" autocomplete="off" spellcheck="false"> the importance of sleep for teenagers.</p>
+    <div class="v-actions"><button class="btn small" onclick="checkV(5)">Check</button><span class="result" id="vr5"></span></div>
+    <p class="v-exp" id="ve5"><b>overstate</b> — It is hard to <u>overstate</u> something = it is so important that you cannot say it is too important.</p>
+  </div>
+  <div class="v-item" data-ans="in effect">
+    <p><span class="v-num">7</span>The new rule means that, <input type="text" id="v6" autocomplete="off" spellcheck="false">, students can no longer use their phones at school.</p>
+    <div class="v-actions"><button class="btn small" onclick="checkV(6)">Check</button><span class="result" id="vr6"></span></div>
+    <p class="v-exp" id="ve6"><b>in effect</b> — <u>In effect</u> means 'in practice' or 'in reality', even if it is not said directly.</p>
+  </div>
+  <div class="v-item" data-ans="got things the wrong way round">
+    <p><span class="v-num">8</span>I'm afraid you've <input type="text" id="v7" autocomplete="off" spellcheck="false">: Sam is the manager, not Alex.</p>
+    <div class="v-actions"><button class="btn small" onclick="checkV(7)">Check</button><span class="result" id="vr7"></span></div>
+    <p class="v-exp" id="ve7"><b>got things the wrong way round</b> — You have <u>got things the wrong way round</u> = you have understood the situation in the opposite way. Here we need the past participle 'got' after 'you've'.</p>
+  </div>
+    <div class="score-row" style="margin-top:12px">
+      <button class="btn big" onclick="checkAllV()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Check all my answers</button>
+      <span class="score" id="vscore"></span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="p-head"><span class="p-num">05</span><h2>Get it right!</h2></div>
+    <p class="p-sub">Look at the sentence below. It contains a common mistake. Can you correct it?</p>
+    <div class="gir">
+      <div class="box bad"><span class="lbl">Incorrect</span>It was only when I lost my phone when I started to notice how often I used it.</div>
+      <div class="box good" id="gir-good"><span class="lbl">Correct</span>It was only when I lost my phone that I started to notice how often I used it.</div>
+    </div>
+    <p class="gir-why" id="gir-why">In the pattern It was only when... that..., we use <u>that</u> in the second part, not 'when'. Look at the first paragraph: 'It was only when a stubborn wrist injury forced me... that I began to suspect...'</p>
+    <div class="q-actions"><button class="btn ghost" onclick="document.getElementById('gir-good').classList.add('show');document.getElementById('gir-why').classList.add('show')">Show the correct sentence</button></div>
+  </section>
+</main>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeZoom()">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div class="size-ctrl"><span>Text size</span><button onclick="mz(-0.1)">A−</button><button onclick="mz(0.1)">A+</button></div>
+      <button class="close" onclick="closeZoom()">Close</button>
+    </div>
+    <div class="modal-content" id="modal-content"></div>
+  </div>
+</div>
+
+<footer>C1 Advanced Prep — Reading · Part 5<span class="credit">Site by Alina Iuga</span></footer>
+
+<script>
+  let size = 1, msize = 1;
+  function fs(d) { size = Math.min(1.6, Math.max(0.8, size + d)); document.documentElement.style.setProperty('--fs', size); }
+  function mz(d) { msize = Math.min(2, Math.max(0.7, msize + d)); document.body.style.setProperty('--mz', msize); }
+  function hint(n) {
+    document.getElementById('h' + n).classList.toggle('show');
+    document.querySelectorAll('.ev[data-ev="' + n + '"]').forEach(e => e.classList.toggle('on'));
+  }
+  function check(n) {
+    const card = document.querySelector('.q-card[data-q="' + n + '"]');
+    const sel = card.querySelector('input:checked'); const r = document.getElementById('r' + n);
+    if (!sel) { r.textContent = 'Choose an answer first.'; r.className = 'result no'; return null; }
+    const ans = card.dataset.ans;
+    card.querySelectorAll('.opt').forEach(o => o.classList.remove('correct', 'wrong'));
+    const ok = sel.value === ans;
+    sel.closest('.opt').classList.add(ok ? 'correct' : 'wrong');
+    if (!ok) card.querySelector('input[value="' + ans + '"]').closest('.opt').classList.add('correct');
+    r.textContent = ok ? 'Correct!' : 'Not quite.'; r.className = 'result ' + (ok ? 'ok' : 'no');
+    card.querySelector('.exp-btn').disabled = false;
+    return ok;
+  }
+  function toggleExp(n) { document.getElementById('e' + n).classList.toggle('show'); }
+  function checkAll() {
+    let s = 0, done = 0;
+    document.querySelectorAll('.q-card').forEach(c => { const v = check(+c.dataset.q); if (v !== null) done++; if (v) s++; });
+    document.getElementById('score').textContent = s + ' / 6 correct · ' + (s * 2) + ' / 12 marks' + (done < 6 ? ' (' + (6 - done) + ' not answered)' : '');
+  }
+  function resetAll() {
+    document.querySelectorAll('.q-card input').forEach(i => i.checked = false);
+    document.querySelectorAll('.opt').forEach(o => o.classList.remove('correct', 'wrong'));
+    document.querySelectorAll('.q-card .result').forEach(r => r.textContent = '');
+    document.querySelectorAll('.exp, .hint-text').forEach(e => e.classList.remove('show'));
+    document.querySelectorAll('.ev').forEach(e => e.classList.remove('on'));
+    document.querySelectorAll('.exp-btn').forEach(b => b.disabled = true);
+    document.getElementById('score').textContent = '';
+  }
+  const norm = s => s.toLowerCase().replace(/[’']/g, "'").replace(/\s+/g, ' ').trim();
+  function checkV(i) {
+    const item = document.querySelectorAll('.v-item')[i], inp = document.getElementById('v' + i), r = document.getElementById('vr' + i);
+    if (!inp.value.trim()) { r.textContent = 'Write an answer first.'; r.className = 'result no'; return null; }
+    const ok = norm(inp.value) === norm(item.dataset.ans);
+    inp.classList.remove('correct', 'wrong'); inp.classList.add(ok ? 'correct' : 'wrong');
+    r.textContent = ok ? 'Correct!' : 'Not quite.'; r.className = 'result ' + (ok ? 'ok' : 'no');
+    document.getElementById('ve' + i).classList.add('show');
+    return ok;
+  }
+  function checkAllV() {
+    let s = 0; const n = document.querySelectorAll('.v-item').length;
+    for (let i = 0; i < n; i++) if (checkV(i)) s++;
+    document.getElementById('vscore').textContent = s + ' / ' + n + ' correct';
+  }
+  function zoom(id) {
+    document.getElementById('modal-content').innerHTML = document.getElementById(id).outerHTML.replace(/id="[^"]*"/g, '');
+    document.getElementById('modal').classList.add('show');
+  }
+  function zoomText() {
+    const title = document.querySelector('.text-title').outerHTML;
+    const paras = [...document.querySelectorAll('.para-card p')].map(p => '<p>' + p.innerHTML + '</p>').join('');
+    document.getElementById('modal-content').innerHTML = title + paras;
+    document.getElementById('modal').classList.add('show');
+  }
+  function closeZoom() { document.getElementById('modal').classList.remove('show'); }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeZoom(); });
+</script>
+</body>
+</html>
